@@ -18,25 +18,28 @@
 <body>
     <div class="max-w-xl mx-auto p-4 min-h-screen relative">
         <header class="text-center py-8 border-b border-white/5 mb-6">
-            <h1 class="text-3xl font-black gold-text">SEAL BOOKING PRO</h1>
+            <h1 class="text-3xl font-black gold-text italic">SEAL BOOKING PRO</h1>
             <p id="user-status" class="text-[10px] text-gray-500 mt-2 uppercase tracking-widest">Premium Guide Service</p>
         </header>
 
-        <!-- Welcome & Payment Screen (Default) -->
+        <!-- Locked Screen -->
         <div id="locked-screen" class="space-y-6">
             <div class="premium-card p-8 text-center shadow-2xl">
                 <h2 class="text-xl font-bold mb-4">Seal Booking Helper မှ ကြိုဆိုပါတယ်</h2>
-                <p class="text-sm text-gray-400 mb-6 leading-relaxed">ဤ Guide နှင့် Tool များကို အသုံးပြုရန် အောက်ပါ Kpay သို့ ငွေပေးချေမှု အရင်ပြုလုပ်ပေးပါခင်ဗျာ။</p>
                 <div class="bg-yellow-500/10 p-5 rounded-2xl mb-6 border border-yellow-500/20">
                     <p class="text-yellow-500 font-bold text-lg underline">Kpay: 09797430552</p>
                     <p class="text-white text-sm mt-1">Mg Zaw Min Naing</p>
                 </div>
-                <p class="text-[10px] text-gray-500 mb-6">ငွေလွှဲပြီးလျှင် Screenshot ကို @krizz_ivan ဆီသို့ ပို့ပေးပါ။ Admin မှ Approve လုပ်ပြီးလျှင် Guide အားလုံး ပွင့်သွားပါမည်။</p>
-                <button onclick="login()" class="w-full py-4 gold-btn rounded-2xl shadow-lg shadow-yellow-600/20">GOOGLE ဖြင့် LOGIN ဝင်မည်</button>
+                <p class="text-[11px] text-gray-400 mb-6 leading-relaxed">
+                    ၁။ Google ဖြင့် အရင် Login ဝင်ပါ။<br>
+                    ၂။ Kpay ဖြင့် ငွေလွှဲပြီး Screenshot ကို @krizz_ivan ဆီသို့ ပို့ပေးပါ။<br>
+                    ၃။ Admin မှ Approve လုပ်ပြီးလျှင် Guide အားလုံး ပွင့်သွားပါမည်။
+                </p>
+                <button id="login-btn" onclick="login()" class="w-full py-4 gold-btn rounded-2xl shadow-lg shadow-yellow-600/20">GOOGLE ဖြင့် LOGIN ဝင်မည်</button>
             </div>
         </div>
 
-        <!-- Unlocked Master Guide (Hidden initially) -->
+        <!-- Unlocked Screen -->
         <div id="unlocked-screen" class="hidden space-y-6 pb-20">
             <div class="grid grid-cols-2 gap-4">
                 <div class="premium-card p-5 text-center">
@@ -51,28 +54,31 @@
 
             <div class="premium-card p-6 space-y-4">
                 <h3 class="text-emerald-400 font-bold border-b border-white/5 pb-2">⚡ QUICK COPY TOOLS</h3>
-                <div class="space-y-4">
+                <div class="grid grid-cols-1 gap-4">
                     <div>
-                        <span class="text-[10px] text-gray-500 uppercase">Passport / ID</span>
+                        <span class="text-[10px] text-gray-500 uppercase font-bold">Passport / ID</span>
                         <div class="flex gap-2 mt-1">
-                            <input id="id-field" type="text" value="N1234567" class="bg-black/50 border border-white/10 p-2 rounded-lg w-full text-sm outline-none focus:border-yellow-500" readonly>
+                            <input id="id-field" type="text" value="ID Number ကို ဒီမှာ ရေးထားပါ" class="bg-black/50 border border-white/10 p-2 rounded-lg w-full text-sm outline-none">
                             <button onclick="copy('id-field')" class="gold-btn px-4 rounded-lg text-[10px]">COPY</button>
                         </div>
                     </div>
                 </div>
+                <div class="flex flex-col gap-2 pt-2">
+                    <a href="https://www.g4k.go.kr" target="_blank" class="text-center py-3 bg-white/5 rounded-xl text-xs hover:bg-white/10 border border-white/5">G4K Website သို့ တိုက်ရိုက်သွားရန်</a>
+                    <a href="https://overseas.mofa.go.kr/mm-my/index.do" target="_blank" class="text-center py-3 bg-white/5 rounded-xl text-xs hover:bg-white/10 border border-white/5">Myanmar Embassy (Korea) Link</a>
+                </div>
             </div>
 
-            <div class="premium-card p-6">
-                <h3 class="text-yellow-500 font-bold mb-4 uppercase text-sm">Seal Booking Master Guide</h3>
-                <div class="text-xs text-gray-300 space-y-4 leading-relaxed">
-                    <p><b class="text-white">မြန်မာနိုင်ငံမှ ယူမည့်သူများ:</b> ၁:၃၀ တွင် Login ဝင်ထားပါ။ Paid VPN သုံးပါ။ ၁:၅၉:၅၅ တွင် Make Reservation ကို အသင့်ပြင်ထားပြီး ၂:၀၀ အတိတွင် နှိပ်ပါ။</p>
-                    <p><b class="text-white">ကိုရီးယားမှ ယူမည့်သူများ:</b> ၄:၁၅ တွင် PC Bang မှ Login ဝင်ပါ။ Ping 2ms/3ms ရှိပါစေ။ ၄:၃၀ အတိတွင် စတင်လုပါ။</p>
-                    <p class="text-yellow-600 italic">* Error (404/500) တက်ပါက Ctrl+R နှိပ်ပြီး ၃ စက္ကန့်ခြား တစ်ခါစီသာ Refresh လုပ်ပါ။</p>
+            <div class="premium-card p-6 border-l-4 border-l-yellow-500">
+                <h3 class="text-yellow-500 font-bold mb-4 uppercase text-sm italic underline">Seal Booking Master Guide</h3>
+                <div class="text-[13px] text-gray-300 space-y-4 leading-relaxed">
+                    <p><b class="text-white">🇲🇲 မြန်မာနိုင်ငံမှ ယူမည့်သူများ:</b><br>၁:၃၀ တွင် Login ဝင်ထားပါ။ Paid VPN သုံးပါ။ ၁:၃၀ မှ ၁:၅၉ ထိ ၅ မိနစ်တစ်ခါ 'Make Reservation' ကိုနှိပ်ပြီး စစ်ပါ။ Bot ဟု အထင်မခံရအောင် ၅ မိနစ်တစ်ခါသာ လုပ်ပါ။ ၁:၅၉:၅၉ အတိတွင် နှိပ်ပါ။ နိုင်ငံမပေါ်လျှင် ၃ စက္ကန့်ခြား တစ်ခါ Refresh (Ctrl+R) လုပ်ပါ။</p>
+                    <p><b class="text-white">🇰🇷 ကိုရီးယားမှ ယူမည့်သူများ:</b><br>၄:၁၅ တွင် PC Bang မှ Login ဝင်ပါ။ Ping 2ms/3ms ရှိပါစေ။ ၄:၁၅ မှ ၄:၂၉ ထိ ၅ မိနစ်တစ်ခါ Refresh လုပ်ပါ။ ၄:၃၀ အတိတွင် နိုင်ငံရွေးပါ။ အဝိုင်းလည်နေလျှင် စိတ်မလောဘဲ စောင့်ပေးပါ။ ၂ စက္ကန့်လောက် နားပြီးမှ Refresh အလှည့်စီ လုပ်ပါ။</p>
                 </div>
             </div>
         </div>
 
-        <!-- Floating Telegram Icon -->
+        <!-- Floating Telegram -->
         <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-transform">
             <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.467 8.246l-1.98 9.33c-.145.641-.52.796-1.058.495l-3.02-2.222-1.457 1.402c-.161.161-.297.297-.61.297l.217-3.076 5.6-5.059c.243-.217-.053-.338-.376-.122l-6.92 4.356-2.982-.932c-.648-.202-.66-.648.135-.958l11.644-4.486c.539-.196 1.012.128.852.896z"/></svg>
         </a>
@@ -88,26 +94,41 @@
             appId: "1:840975178550:web:f66104070ba7cae9c4b197"
         };
         firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        function login() {
+        async function login() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider).catch(err => alert("Error: Firebase Domain ကို Authorized လုပ်ရန် လိုအပ်နေပါသေးသည်။"));
+            try {
+                await firebase.auth().signInWithPopup(provider);
+            } catch (err) {
+                alert("Login Error: Authorized Domains ထဲမှာ github.io ကို ထည့်ဖို့ လိုအပ်နေပါသေးတယ်။");
+            }
         }
 
-        firebase.auth().onAuthStateChanged(user => {
+        firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
-                document.getElementById('user-status').innerText = "Member: " + user.email;
-                checkApproval(user.uid);
+                document.getElementById('user-status').innerText = "Logged in: " + user.email;
+                document.getElementById('login-btn').innerText = "Verifying Approval...";
+                
+                // ၁။ User ကို Database ထဲ အလိုအလျောက် အရင်ထည့်မယ်
+                const userRef = db.collection('users').doc(user.uid);
+                const doc = await userRef.get();
+                
+                if (!doc.exists) {
+                    await userRef.set({
+                        email: user.email,
+                        isApproved: false,
+                        joinedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+                
+                // ၂။ အတည်ပြုချက် ရှိမရှိ စစ်မယ်
+                if (doc.exists && doc.data().isApproved === true) {
+                    document.getElementById('locked-screen').classList.add('hidden');
+                    document.getElementById('unlocked-screen').classList.remove('hidden');
+                }
             }
         });
-
-        async function checkApproval(uid) {
-            const doc = await firebase.firestore().collection('users').doc(uid).get();
-            if (doc.exists && doc.data().isApproved) {
-                document.getElementById('locked-screen').classList.add('hidden');
-                document.getElementById('unlocked-screen').classList.remove('hidden');
-            }
-        }
 
         function copy(id) {
             const el = document.getElementById(id);
