@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seal Booking Helper</title>
+    <title>Seal & Canva Pro Helper</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -11,88 +11,117 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
-        body { background-color: #0d0f14; color: #ffffff; font-family: 'Inter', sans-serif; }
-        .glass-card { background: #161a23; border: 1px solid #2d333f; border-radius: 24px; }
+        body { background-color: #0d0f14; color: #ffffff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .glass-card { background: #161a23; border: 1px solid #2d333f; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .premium-gradient { background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%); }
-        .gold-text { color: #f59e0b; }
+        .canva-gradient { background: linear-gradient(135deg, #00c4cc 0%, #7d2ae8 100%); }
+        .gold-btn { background: #f59e0b; color: black; font-weight: 800; }
         .copy-input { background: #1f2532; border: 1px solid #374151; color: white; border-radius: 12px; width: 100%; padding: 12px; font-size: 14px; outline: none; }
     </style>
 </head>
 <body class="pb-24">
 
     <div class="max-w-xl mx-auto px-4">
-        <!-- TOP NAV -->
-        <nav class="flex justify-between items-center py-6">
+        <!-- TOP NAV MENU -->
+        <nav class="flex justify-between items-center py-6 mb-2">
             <div class="flex items-center gap-2">
-                <div class="w-10 h-10 rounded-xl premium-gradient flex items-center justify-center shadow-lg shadow-purple-500/20 text-white"><i class="fa-solid fa-seal"></i></div>
-                <div><h1 class="text-sm font-black uppercase">Seal Booking</h1><p class="text-[10px] text-gray-500 font-bold leading-none">Helper</p></div>
+                <div class="w-10 h-10 rounded-xl premium-gradient flex items-center justify-center shadow-lg text-white font-black">S</div>
+                <div><h1 class="text-sm font-black uppercase tracking-tight">Master Helper</h1><p class="text-[10px] text-gray-500 font-bold leading-none">Canva & Seal</p></div>
             </div>
             <div class="flex items-center gap-3">
-                <div id="verified-tag" class="hidden flex items-center gap-1 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-3 py-1 rounded-full text-[10px] font-bold">Verified</div>
+                <div id="verified-badge" class="hidden bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">Verified</div>
                 <button id="user-menu-btn" class="w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 overflow-hidden"><i class="fa-solid fa-user"></i></button>
             </div>
         </nav>
 
-        <!-- ADMIN DASHBOARD (Statistic Cards) -->
+        <!-- ADMIN DASHBOARD -->
         <div id="admin-dashboard" class="hidden space-y-6 mb-10">
-            <h2 class="text-[10px] font-black uppercase tracking-widest text-purple-400 italic">Admin Control</h2>
-            <div class="grid grid-cols-3 gap-3">
-                <div class="glass-card p-4 text-center border-orange-500/20"><p id="count-pending" class="text-xl font-black text-orange-500">0</p><p class="text-[9px] text-gray-500 font-bold uppercase mt-1">Pending</p></div>
-                <div class="glass-card p-4 text-center border-emerald-500/20"><p id="count-approved" class="text-xl font-black text-emerald-500">0</p><p class="text-[9px] text-gray-500 font-bold uppercase mt-1">Approved</p></div>
-                <div class="glass-card p-4 text-center border-red-500/20"><p id="count-rejected" class="text-xl font-black text-red-500">0</p><p class="text-[9px] text-gray-500 font-bold uppercase mt-1">Rejected</p></div>
+            <h2 class="text-[10px] font-black uppercase tracking-widest text-purple-400 italic border-b border-purple-500/20 pb-2">Admin Dashboard</h2>
+            <div id="admin-user-list" class="space-y-3 max-h-[400px] overflow-y-auto">
+                <p class="text-[10px] text-gray-500 text-center py-4">Loading Users...</p>
             </div>
-            <div id="admin-user-list" class="space-y-3"></div>
         </div>
 
-        <!-- MAIN VIEWS -->
+        <!-- LOGIN / PAYMENT SCREEN -->
         <div id="locked-view" class="hidden space-y-8 py-10 text-center">
             <div class="w-32 h-32 mx-auto rounded-[2.5rem] premium-gradient flex items-center justify-center shadow-2xl mb-8"><i class="fa-solid fa-lock text-white text-4xl"></i></div>
-            <h2 class="text-3xl font-black">Access Required</h2>
-            <div class="glass-card p-8 space-y-6">
-                <div class="p-4 bg-gray-900 rounded-2xl border border-gray-800 text-left">
+            <h2 class="text-3xl font-black italic">Access Control</h2>
+            <div class="glass-card p-8 space-y-6 text-left">
+                <div class="p-4 bg-gray-900 rounded-2xl border border-gray-800">
                     <p class="text-[9px] font-bold text-gray-500 uppercase">KPay: 09797430552</p>
-                    <p class="text-lg font-black text-orange-500 leading-tight">Mg Zaw Min Naing</p>
+                    <p class="text-lg font-black text-orange-500">Mg Zaw Min Naing</p>
                 </div>
-                <button onclick="login()" id="login-btn" class="w-full py-5 premium-gradient rounded-3xl font-black text-sm shadow-xl uppercase">Google ဖြင့် Login ဝင်မည်</button>
+                <div class="text-xs text-gray-400 space-y-3 leading-relaxed">
+                    <p>၁။ Google ဖြင့် Login ဝင်ပြီး ၁၀ ရက် အခမဲ့ Trial ရယူပါ။</p>
+                    <p>၂။ Trial ပြည့်၍ ဆက်သုံးလိုပါက (တစ်လ ၃၀၀၀ ကျပ်) ပေးချေပြီး Screenshot အား Telegram သို့ ပို့ပေးပါ။</p>
+                </div>
+                <button onclick="login()" class="w-full py-5 premium-gradient rounded-3xl font-black text-sm uppercase shadow-xl tracking-widest active:scale-95 transition">Google ဖြင့် Login ဝင်မည်</button>
             </div>
         </div>
 
-        <div id="unlocked-view" class="hidden space-y-8">
-            <div class="glass-card p-6 border-emerald-500/20"><div class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-emerald-500 text-xl"></i><div><h4 class="text-sm font-black uppercase text-emerald-500">ငွေပေးချေမှု အတည်ပြုပြီး</h4><p class="text-[10px] text-gray-400">Features များ အကုန် သုံးနိုင်ပါပြီ</p></div></div></div>
+        <!-- MAIN FEATURES AREA -->
+        <div id="unlocked-view" class="hidden space-y-8 pt-4">
             
-            <div class="grid grid-cols-2 gap-4">
-                <div class="glass-card p-6 text-center">
-                    <p class="text-[9px] text-gray-500 uppercase font-black mb-2">Myanmar (MMT)</p>
-                    <p id="mm-time" class="text-2xl font-black">00:00:00</p>
+            <!-- CANVA PRO SECTION -->
+            <div class="glass-card p-6 border-purple-500/20 relative overflow-hidden">
+                <div class="flex items-center gap-3 mb-6">
+                    <i class="fa-solid fa-palette text-purple-400"></i>
+                    <h3 class="text-xs font-black uppercase tracking-widest">Canva Pro Access</h3>
                 </div>
-                <div class="glass-card p-6 text-center border-orange-500/20">
-                    <p class="text-[9px] text-orange-500 uppercase font-black mb-2">Korea (KST)</p>
-                    <p id="kr-time" class="text-2xl font-black text-orange-500">00:00:00</p>
-                </div>
-            </div>
-
-            <div class="glass-card p-6 space-y-5">
-                <h3 class="text-xs font-black uppercase tracking-widest text-purple-400">Data Manager</h3>
                 <div class="space-y-4">
-                    <div><p class="text-[9px] font-bold text-gray-500 uppercase mb-2 ml-1 italic">Name</p><div class="flex gap-2"><input id="f-name" class="copy-input" placeholder="အမည်"><button onclick="copy('f-name')" class="px-5 bg-gray-800 rounded-xl"><i class="fa-solid fa-copy"></i></button></div></div>
-                    <div><p class="text-[9px] font-bold text-gray-500 uppercase mb-2 ml-1 italic">Phone</p><div class="flex gap-2"><input id="f-ph" class="copy-input" placeholder="ဖုန်းနံပါတ်"><button onclick="copy('f-ph')" class="px-5 bg-gray-800 rounded-xl"><i class="fa-solid fa-copy"></i></button></div></div>
-                    <div><p class="text-[9px] font-bold text-gray-500 uppercase mb-2 ml-1 italic">Passport ID</p><div class="flex gap-2"><input id="f-id" class="copy-input" placeholder="ID နံပါတ်"><button onclick="copy('f-id')" class="px-5 bg-gray-800 rounded-xl"><i class="fa-solid fa-copy"></i></button></div></div>
+                    <div class="bg-gray-900/50 p-5 rounded-2xl border border-gray-800">
+                        <p class="text-[9px] text-gray-500 uppercase font-black mb-1">Status</p>
+                        <p id="trial-days-left" class="text-xl font-black text-emerald-500">Loading Trial...</p>
+                    </div>
+                    <div id="canva-link-area">
+                        <p class="text-[11px] text-gray-400 mb-4 italic">အောက်ပါ Button ကိုနှိပ်၍ Canva Pro Team သို့ Join နိုင်ပါသည်</p>
+                        <a href="#" id="canva-join-link" target="_blank" class="block w-full py-5 canva-gradient text-center rounded-2xl font-black text-sm uppercase shadow-xl active:scale-95 transition">
+                            Join Canva Pro Team
+                        </a>
+                    </div>
+                    <div id="canva-expired-area" class="hidden p-6 bg-red-500/10 border border-red-500/20 rounded-2xl text-center">
+                        <p class="text-xs text-red-500 font-black uppercase tracking-widest">Free Trial Expired</p>
+                        <p class="text-[10px] text-gray-500 mt-2">ဆက်လက်အသုံးပြုရန် Telegram မှတစ်ဆင့် ဝယ်ယူနိုင်ပါသည်</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="glass-card p-8 border-l-[6px] border-l-purple-500 space-y-4">
-                <h3 class="text-purple-400 font-black uppercase text-xs italic tracking-widest underline">Strategy Guide</h3>
-                <div class="text-[13px] text-gray-400 leading-relaxed space-y-4">
-                    <p><b class="text-white underline">🇲🇲 မြန်မာ:</b> ၁:၃၀ ဝင်ပါ။ Paid VPN သုံးပါ။ ၁:၅၉:၅၉ အတိတွင် Reservation နှိပ်ပါ။</p>
-                    <p><b class="text-white underline">🇰🇷 ကိုရီးယား:</b> ၄:၁၅ တွင် PC Bang မှ ဝင်ပါ။ ၄:၃၀:၀၀ အတိတွင် နိုင်ငံရွေးပါ။</p>
+            <!-- PRECISION CLOCKS -->
+            <div class="glass-card p-6">
+                <h3 class="text-xs font-black uppercase tracking-widest text-orange-400 mb-6">Seal Booking Clocks</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-900/50 p-4 rounded-2xl text-center border border-gray-800">
+                        <p class="text-[9px] text-gray-500 uppercase font-black mb-1 italic">Myanmar</p>
+                        <p id="mm-time" class="text-xl font-black font-mono">00:00:00</p>
+                    </div>
+                    <div class="bg-gray-900/50 p-4 rounded-2xl text-center border border-orange-500/20">
+                        <p class="text-[9px] text-orange-500 uppercase font-black mb-1 italic">Korea</p>
+                        <p id="kr-time" class="text-xl font-black text-orange-500 font-mono">00:00:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COPY TOOLS -->
+            <div class="glass-card p-6 space-y-4">
+                <h3 class="text-xs font-black uppercase tracking-widest text-emerald-400 mb-6 border-b border-white/5 pb-2">⚡ Data Manager</h3>
+                <div><p class="text-[9px] font-bold text-gray-500 uppercase mb-2 ml-1 italic">Name</p><div class="flex gap-2"><input id="f-name" class="copy-input" placeholder="အမည်"><button onclick="copy('f-name')" class="px-5 bg-gray-800 rounded-xl"><i class="fa-solid fa-copy"></i></button></div></div>
+                <div><p class="text-[9px] font-bold text-gray-500 uppercase mb-2 ml-1 italic">Phone</p><div class="flex gap-2"><input id="f-ph" class="copy-input" placeholder="ဖုန်းနံပါတ်"><button onclick="copy('f-ph')" class="px-5 bg-gray-800 rounded-xl"><i class="fa-solid fa-copy"></i></button></div></div>
+                <div><p class="text-[9px] font-bold text-gray-500 uppercase mb-2 ml-1 italic">Passport ID</p><div class="flex gap-2"><input id="f-id" class="copy-input font-mono" placeholder="A1234567"><button onclick="copy('f-id')" class="px-5 bg-gray-800 rounded-xl"><i class="fa-solid fa-copy"></i></button></div></div>
+            </div>
+
+            <!-- SPECIAL NOTE -->
+            <div class="glass-card p-8 border-l-[6px] border-l-yellow-500 bg-yellow-500/5">
+                <h3 class="text-yellow-500 font-black uppercase text-xs tracking-widest mb-6 border-b border-yellow-500/10 pb-3">Special Note</h3>
+                <div class="text-[13px] text-gray-300 leading-relaxed space-y-4 font-medium italic">
+                    <p>Korea pc방 မှာ ယူတဲ့အခါ 4:15 မှ ဝင်ရင် အဆင်ပြေပါပြီ။ စောဝင်ရင် IP ban တတ်ပါတယ်။ မြန်မာမှာဆိုရင် နာရီဝက် ကြိုဝင်ထားတာ အကောင်းဆုံးပါ။ 1:50 or 4:20 မတိုင်ခင်ထိ ၅ မိနစ်တစ်ခါလောက်ပဲ refresh လုပ်ပါ။ လိုင်းကြပ်ချိန်မှာ အဝိုင်းလည်နေရင် စိတ်မလောဘဲ စောင့်ပေးပါ။ ၂ စက္ကန့်လောက်နားပြီးမှ Refresh အလှည့်စီလုပ်တာ ပိုကောင်းပါတယ်။</p>
                 </div>
             </div>
         </div>
 
-        <!-- TELEGRAM -->
-        <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 flex items-center gap-3 bg-[#0088cc] px-6 py-4 rounded-full shadow-2xl z-50">
+        <!-- FLOATING CONTACT -->
+        <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 flex items-center gap-3 bg-[#0088cc] px-6 py-4 rounded-full shadow-2xl z-[100] active:scale-95 transition">
             <i class="fa-brands fa-telegram text-2xl text-white"></i>
-            <span class="text-xs font-black uppercase text-white tracking-widest">Telegram</span>
+            <span class="text-xs font-black uppercase text-white tracking-widest">Telegram ss ပို့ရန်</span>
         </a>
     </div>
 
@@ -109,6 +138,7 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         const ADMIN_EMAIL = "kieronray348@gmail.com";
+        const CANVA_LINK = "https://www.canva.com/brand/join?token=Q8rycq3GGOtkn_xqfX4TcQ&brandingVariant=edu&referrer=team-invite";
 
         async function login() {
             const provider = new firebase.auth.GoogleAuthProvider();
@@ -116,57 +146,69 @@
         }
 
         auth.onAuthStateChanged(async (user) => {
-            // အကုန်လုံးကို အရင်ဝှက်ထားမယ်
-            document.getElementById('locked-view').classList.add('hidden');
-            document.getElementById('unlocked-view').classList.add('hidden');
-            document.getElementById('admin-dashboard').classList.add('hidden');
-
             if (user) {
                 const email = user.email.toLowerCase();
-                // Admin ဖြစ်ရင် တန်းပြမယ် (Database မစောင့်တော့ဘူး)
-                if (email === ADMIN_EMAIL.toLowerCase()) {
-                    document.getElementById('unlocked-view').classList.remove('hidden');
-                    document.getElementById('admin-dashboard').classList.remove('hidden');
-                    document.getElementById('verified-tag').classList.remove('hidden');
-                    loadAdminData();
+                const userRef = db.collection('users').doc(user.uid);
+                let doc = await userRef.get();
+
+                if (!doc.exists) {
+                    await userRef.set({
+                        email: email,
+                        trialStart: firebase.firestore.FieldValue.serverTimestamp(),
+                        isPaid: (email === ADMIN_EMAIL.toLowerCase()),
+                        joinedAt: new Date().getTime()
+                    });
+                    doc = await userRef.get();
+                }
+
+                const data = doc.data();
+                document.getElementById('locked-view').classList.add('hidden');
+                document.getElementById('unlocked-view').classList.remove('hidden');
+                document.getElementById('verified-badge').classList.remove('hidden');
+
+                // Trial Logic (10 Days = 864,000,000 ms)
+                const now = new Date().getTime();
+                const startTime = data.joinedAt || now;
+                const msPassed = now - startTime;
+                const daysRemaining = 10 - Math.floor(msPassed / (1000 * 60 * 60 * 24));
+
+                if (data.isPaid || daysRemaining >= 0) {
+                    document.getElementById('canva-join-link').href = CANVA_LINK;
+                    document.getElementById('trial-days-left').innerText = data.isPaid ? "PREMIUM STATUS (Active)" : `TRIAL: ${daysRemaining} Days Remaining`;
+                    if(data.isPaid) document.getElementById('trial-days-left').classList.replace('text-emerald-500', 'text-yellow-500');
                 } else {
-                    // User ဆိုရင် DB စစ်မယ်
-                    const userRef = db.collection('users').doc(user.uid);
-                    const doc = await userRef.get().catch(() => null);
-                    if (doc && doc.exists && doc.data().isApproved) {
-                        document.getElementById('unlocked-view').classList.remove('hidden');
-                        document.getElementById('verified-tag').classList.remove('hidden');
-                    } else {
-                        document.getElementById('locked-view').classList.remove('hidden');
-                        document.getElementById('login-btn').innerText = "စောင့်ဆိုင်းနေဆဲ...";
-                        document.getElementById('login-btn').disabled = true;
-                    }
+                    document.getElementById('canva-link-area').classList.add('hidden');
+                    document.getElementById('canva-expired-area').classList.remove('hidden');
+                    document.getElementById('trial-days-left').innerText = "TRIAL EXPIRED";
+                    document.getElementById('trial-days-left').classList.replace('text-emerald-500', 'text-red-500');
+                }
+
+                if (email === ADMIN_EMAIL.toLowerCase()) {
+                    document.getElementById('admin-dashboard').classList.remove('hidden');
+                    loadAdminData();
                 }
             } else {
                 document.getElementById('locked-view').classList.remove('hidden');
+                document.getElementById('unlocked-view').classList.add('hidden');
             }
         });
 
         function loadAdminData() {
-            db.collection('users').onSnapshot(snap => {
+            db.collection('users').orderBy('email').onSnapshot(snap => {
                 const list = document.getElementById('admin-user-list');
-                let pending = 0, approved = 0;
                 list.innerHTML = "";
                 snap.forEach(d => {
                     const data = d.data();
                     if(data.email === ADMIN_EMAIL) return;
-                    data.isApproved ? approved++ : pending++;
-                    list.innerHTML += `<div class="glass-card p-4 flex justify-between items-center bg-gray-900/40">
-                        <div class="text-[10px]"><p class="font-black">${data.email}</p><p class="${data.isApproved ? 'text-emerald-500' : 'text-orange-500'} font-bold mt-1">${data.isApproved ? 'APPROVED' : 'PENDING'}</p></div>
-                        <button onclick="updateStatus('${d.id}', ${!data.isApproved})" class="bg-white text-black px-4 py-2 rounded-xl text-[9px] font-black uppercase">${data.isApproved ? 'Revoke' : 'Approve'}</button>
+                    list.innerHTML += `<div class="glass-card p-4 flex justify-between items-center bg-gray-900/30 border-white/5">
+                        <div class="text-[10px]"><p class="font-black">${data.email}</p><p class="${data.isPaid ? 'text-yellow-500' : 'text-blue-400'} font-bold mt-1 uppercase">${data.isPaid ? 'PAID MEMBER' : 'IN TRIAL'}</p></div>
+                        <button onclick="togglePaid('${d.id}', ${!data.isPaid})" class="bg-white text-black px-4 py-2 rounded-xl text-[9px] font-black uppercase">${data.isPaid ? 'Reset Trial' : 'Set as Paid'}</button>
                     </div>`;
                 });
-                document.getElementById('count-pending').innerText = pending;
-                document.getElementById('count-approved').innerText = approved;
             });
         }
 
-        async function updateStatus(id, s) { await db.collection('users').doc(id).update({ isApproved: s }); }
+        async function togglePaid(id, s) { await db.collection('users').doc(id).update({ isPaid: s }); }
         function copy(id) { navigator.clipboard.writeText(document.getElementById(id).value); alert("Copied!"); }
         
         setInterval(() => {
