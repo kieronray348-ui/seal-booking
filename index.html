@@ -3,148 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEAL BOOKING PRO | MASTER GUIDE</title>
+    <title>SEAL BOOKING PRO | OFFICIAL GUIDE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
         body { background-color: #0a0f18; color: #e5e7eb; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .premium-card { background: #111827; border: 1px solid #1f2937; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .gold-btn { background: #eab308; color: #000; font-weight: 800; transition: 0.3s; }
+        .premium-card { background: #111827; border: 1px solid #1f2937; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .gold-btn { background: linear-gradient(135deg, #ca8a04 0%, #eab308 100%); color: #000; font-weight: 800; transition: 0.3s; }
         .gold-btn:active { transform: scale(0.95); }
         .gold-text { color: #eab308; font-weight: 900; }
         .copy-input { background: #000; border: 1px solid #374151; color: #fff; border-radius: 12px; }
+        .instruction-note { border-left: 6px solid #eab308; background: rgba(234, 179, 8, 0.03); }
+        .highlight { color: #eab308; font-weight: bold; }
     </style>
 </head>
-<body class="pb-20">
+<body class="pb-24">
 
     <div class="max-w-xl mx-auto p-4">
-        <!-- Logo Header -->
-        <header class="text-center py-10">
-            <h1 class="text-4xl gold-text italic tracking-tighter uppercase">SEAL BOOKING PRO</h1>
-            <p class="text-[10px] text-gray-500 mt-2 uppercase tracking-[0.3em] font-bold">Premium Free Guide Service</p>
+        <!-- Logo Section -->
+        <header class="text-center py-12">
+            <h1 class="text-4xl gold-text italic tracking-tighter uppercase mb-2">SEAL BOOKING PRO</h1>
+            <div class="h-1 w-20 bg-yellow-500 mx-auto rounded-full mb-4 opacity-50"></div>
+            <p class="text-[10px] text-gray-500 uppercase tracking-[0.4em] font-bold">Official Master Guide</p>
         </header>
 
         <!-- Precision Clocks -->
         <div class="grid grid-cols-2 gap-4 mb-8">
-            <div class="premium-card p-6 text-center border-white/5">
+            <div class="premium-card p-6 text-center">
                 <p class="text-[10px] text-gray-500 uppercase font-black mb-1">Myanmar Time</p>
                 <p id="mm-time" class="text-2xl font-black">00:00:00</p>
             </div>
             <div class="premium-card p-6 text-center border-yellow-500/30">
-                <p class="text-[10px] text-yellow-500 uppercase font-black mb-1">Korea Time</p>
+                <p class="text-[10px] text-yellow-500 uppercase font-black mb-1 tracking-widest">Korea Time</p>
                 <p id="kr-time" class="text-2xl font-black text-yellow-500">00:00:00</p>
             </div>
         </div>
 
-        <!-- Copy Tools Section -->
+        <!-- Quick Copy Tools -->
         <div class="premium-card p-6 mb-8 space-y-6">
-            <h3 class="text-emerald-400 font-black text-xs uppercase tracking-widest border-b border-white/5 pb-2">⚡ Quick Copy Tools</h3>
-            
-            <div class="space-y-4">
+            <h3 class="text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em] border-b border-white/5 pb-2 flex items-center gap-2">⚡ Quick Copy Tools</h3>
+            <div class="space-y-5">
                 <div>
                     <span class="text-[10px] text-gray-500 uppercase font-bold ml-1">Full Name</span>
                     <div class="flex gap-2 mt-1">
-                        <input id="name-field" type="text" placeholder="အမည် ရိုက်ထည့်ပါ..." class="copy-input p-3 w-full text-sm outline-none focus:border-yellow-500">
+                        <input id="name-field" type="text" placeholder="အမည်..." class="copy-input p-3 w-full text-sm outline-none">
                         <button onclick="copyText('name-field')" class="gold-btn px-4 rounded-xl text-[10px] uppercase">Copy</button>
                     </div>
                 </div>
                 <div>
                     <span class="text-[10px] text-gray-500 uppercase font-bold ml-1">Passport / ID</span>
                     <div class="flex gap-2 mt-1">
-                        <input id="id-field" type="text" placeholder="ID နံပါတ် ရိုက်ထည့်ပါ..." class="copy-input p-3 w-full text-sm outline-none focus:border-yellow-500">
+                        <input id="id-field" type="text" placeholder="ID နံပါတ်..." class="copy-input p-3 w-full text-sm outline-none font-mono">
                         <button onclick="copyText('id-field')" class="gold-btn px-4 rounded-xl text-[10px] uppercase">Copy</button>
                     </div>
                 </div>
-                <div>
-                    <span class="text-[10px] text-gray-500 uppercase font-bold ml-1">Phone Number</span>
-                    <div class="flex gap-2 mt-1">
-                        <input id="phone-field" type="text" placeholder="ဖုန်းနံပါတ်..." class="copy-input p-3 w-full text-sm outline-none focus:border-yellow-500">
-                        <button onclick="copyText('phone-field')" class="gold-btn px-4 rounded-xl text-[10px] uppercase">Copy</button>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Essential Links -->
+        <!-- Direct Links -->
         <div class="grid grid-cols-1 gap-3 mb-8">
-            <a href="https://www.g4k.go.kr" target="_blank" class="premium-card p-4 text-center text-xs font-bold hover:bg-gray-800 transition uppercase tracking-widest">🌐 G4K Official Website</a>
-            <a href="https://overseas.mofa.go.kr/mm-my/index.do" target="_blank" class="premium-card p-4 text-center text-xs font-bold hover:bg-gray-800 transition uppercase tracking-widest">🏛️ Myanmar Embassy (Korea)</a>
-            <a href="https://time.navyism.com/?host=www.g4k.go.kr" target="_blank" class="premium-card p-4 text-center text-xs font-bold hover:bg-gray-800 transition uppercase tracking-widest">⏱️ Korea Standard Time (G4K)</a>
+            <a href="https://www.g4k.go.kr" target="_blank" class="premium-card p-4 text-center text-[11px] font-black hover:bg-gray-800 transition uppercase tracking-widest text-gray-300">🌐 Open G4K Website</a>
+            <a href="https://time.navyism.com/?host=www.g4k.go.kr" target="_blank" class="premium-card p-4 text-center text-[11px] font-black hover:bg-gray-800 transition uppercase tracking-widest text-yellow-500 border-yellow-500/10">⏱️ Korea Standard Time (G4K)</a>
         </div>
 
-        <!-- Master Guide Content -->
-        <div class="premium-card p-8 border-l-[6px] border-l-yellow-500 space-y-8">
-            <h2 class="text-xl font-black text-yellow-500 uppercase italic underline tracking-widest">Seal Booking Master Guide</h2>
+        <!-- The Master Instruction Note (User's Detailed Text) -->
+        <div class="premium-card p-8 instruction-note mb-8">
+            <h3 class="text-yellow-500 font-black mb-6 uppercase text-sm tracking-widest underline italic">Seal Master Instruction Note</h3>
             
-            <div class="space-y-4">
-                <h4 class="text-white font-bold text-sm uppercase flex items-center gap-2">🇲🇲 မြန်မာနိုင်ငံမှ ယူမည့်သူများ</h4>
-                <div class="text-xs text-gray-400 leading-relaxed space-y-2">
-                    <p>• နေ့လည် <b class="text-white text-sm">၁:၃၀</b> တွင် Login ဝင်ထားပါ။ Paid VPN (Express/Nord) သုံးပါ။</p>
-                    <p>• ၁:၃၀ မှ ၁:၅၉ ထိ (၅) မိနစ်တစ်ခါ 'Make Reservation' ကိုနှိပ်ပြီး စစ်ပါ။</p>
-                    <p>• <b class="text-white text-sm text-yellow-500">၁:၅၉:၅၉</b> အတိတွင် Make Reservation ကိုနှိပ်ပါ။</p>
-                    <p>• နိုင်ငံမပေါ်လျှင် <b class="text-white text-sm">၃ စက္ကန့်ခြား</b> တစ်ခါစီသာ Refresh (Ctrl+R) လုပ်ပါ။</p>
-                    <p>• သံရုံးပေါ်လာလျှင် Notary ရွေး၊ ရက်ရွေးပြီး ID ကို Copy Tool မှကူးထားသည်ကို Paste (Ctrl+V) လုပ်ကာ Capture အမြန်ဖြည့်ပါ။</p>
-                </div>
-            </div>
+            <div class="text-[13.5px] text-gray-200 leading-[1.8] space-y-6 font-medium">
+                <p>
+                    <span class="highlight">Korea pc방</span> မှာ ယူတဲ့အခါ ပုံမှန်တွေထက်လိုင်းကောင်းတာဖြစ်လို့ <span class="highlight">4:15</span> မှ ဝင်ရင် အဆင်ပြေပါပြီ။ (စောဝင်တဲ့အခါ refresh လုပ်ရာကနေ server က WiFi ကို bot အမှတ်နဲ့ ban သွားတာမျိုးတွေ ခဏခဏ ကြုံတွေ့ရတတ်ပါတယ်)
+                </p>
 
-            <div class="space-y-4 pt-4 border-t border-white/5">
-                <h4 class="text-white font-bold text-sm uppercase flex items-center gap-2">🇰🇷 ကိုရီးယားမှ ယူမည့်သူများ</h4>
-                <div class="text-xs text-gray-400 leading-relaxed space-y-2">
-                    <p>• ညနေ <b class="text-white text-sm">၄:၁၅</b> တွင် PC Bang မှ Login ဝင်ပါ။ Internet Ping 2ms/3ms ရှိရပါမည်။</p>
-                    <p>• ၄:၁၅ မှ ၄:၂၉ ထိ (၅) မိနစ်တစ်ခါ Refresh လုပ်ပေးပါ။</p>
-                    <p>• <b class="text-white text-sm text-yellow-500">၄:၃၀:၀၀</b> အတိတွင် နိုင်ငံရွေးပါ။</p>
-                    <p>• အဝိုင်းလည်နေလျှင် စိတ်မလောဘဲ စောင့်ပေးပါ။ ၂ စက္ကန့်လောက်နားပြီးမှ Refresh ကို အလှည့်စီလုပ်ပါ။</p>
-                    <p class="italic text-[10px] text-yellow-600/80 mt-4">* စောဝင်လွန်းလျှင် သို့မဟုတ် ခဏခဏ Refresh လုပ်လျှင် Server က IP Ban တတ်သဖြင့် သတိထားပါ။</p>
+                <p>
+                    မြန်မာမှာ သို့မဟုတ် ကိုယ့်အိမ် WiFi နဲ့ ဖုန်း/ pc စတာတွေနဲ့ ယူမယ်ဆိုရင်တော့ အနည်းဆုံး <span class="highlight">နာရီဝက် ကြိုဝင်ထားတာ</span> အကောင်းဆုံးပါ။ code မကျတဲ့ပြသနာကို မပူရတော့ပါဘူး။
+                </p>
+
+                <p>
+                    အရေးကြီးဆုံးက သံရုံးဖွင့်ပေးတဲ့အချိန်မှာ <span class="highlight">မြန်မာသံရုံးချက်ချင်းပေါ်ဖို့နဲ့ 404 error မတက်ဖို့က နံပါတ် ၁ ပါ။</span> အဲ့တာကြောင့် ကြိုပြီး log in ဝင်ထားပြီးရင် ခဏခဏ refresh လုပ်ခြင်းကို ရှောင်ရပါမယ်။ မလုပ်ဘဲ ပစ်ထားတာမျိုးလည်းမဟုတ်ပါဘူး။ <span class="highlight">1:50 or 4:20</span> မတိုင်ခင်ထိ <span class="highlight">၅ မိနစ်တစ်ခါ ၇ မိနစ်တစ်ခါမှ</span> လုပ်ပေးပြီး screen မပိတ်အောင် page မကျသွားအောင် တော်ရုံလောက် လုံပေးရင် ရပါတယ်။
+                </p>
+
+                <p>
+                    <span class="highlight">1:50 or 4:20</span> ပြီးရင်တော့ လိုင်းက ပိုကြပ်လာပြီမလို့ <span class="highlight">၂ မိနစ်ခြား သို့ ၃ မိနစ်ခြား</span> လုပ်ပေးပြီး <span class="highlight">1:59 / 4:29</span> မှာ Make a reservation page မှာစောင့်ပြီး အချိန်စေ့တာနဲ့ ဝင်ကြည့်လိုက်ပါ။ အဲ့မှာ အကုန်ပြုံဝင်ကြတာဖြစ်လို့ လိုင်းကြပ်ပြီး အဝိုင်းလည်နေနိုင်ပါတယ်။
+                </p>
+
+                <p>
+                    စိတ်လောပြီး လိုက်နှိပ်တာထက် <span class="highlight">အဝိုင်းလည်နေတာကို စောင့်ပေးပါ။</span> log in နေရာ embassy ရွေးတဲ့နေရာ ရောက်ပြီဆိုရင် ချက်ချင်း နိုင်ငံရွေးလိုက်ပါ။
+                </p>
+
+                <div class="bg-black/40 p-5 rounded-2xl border border-white/5 italic">
+                    အကယ်၍ သံရုံးက ကွက်တိမပေါ်ခဲ့ရင် <span class="highlight">Ctrl + R</span> နှင့် Make a reservation page နေရာကို refresh လုပ်တာကို အလှည့်စီလုပ်ပြီး နိုင်ငံရွေးကြည့်ပါ။ အဓိကအချက်က ဆက်တိုက်နှိပ်တာမဟုတ်ဘဲ အဝိုင်းလည်တာပြီးတဲ့ထိစောင့်ပြီး <span class="highlight">2 seconds လောက်နားလုပ်တာ</span> ကောင်းပါတယ်။
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="text-center py-10 opacity-30 text-[10px] uppercase tracking-widest">
-            Developed for Seal Booking Community
-        </footer>
-
-        <!-- Floating Telegram -->
+        <!-- Floating Telegram Icon -->
         <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 w-16 h-16 bg-[#0088cc] rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-all active:scale-95 z-50">
             <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.467 8.246l-1.98 9.33c-.145.641-.52.796-1.058.495l-3.02-2.222-1.457 1.402c-.161.161-.297.297-.61.297l.217-3.076 5.6-5.059c.243-.217-.053-.338-.376-.122l-6.92 4.356-2.982-.932c-.648-.202-.66-.648.135-.958l11.644-4.486c.539-.196 1.012.128.852.896z"/></svg>
         </a>
     </div>
 
     <script>
-        // Real-time Clock Function
+        // Real-time Clocks
         function updateTime() {
             const now = new Date();
             const opt = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-            
-            // Myanmar Time
             document.getElementById('mm-time').innerText = new Intl.DateTimeFormat('en-GB', { ...opt, timeZone: 'Asia/Yangon' }).format(now);
-            
-            // Korea Time
             document.getElementById('kr-time').innerText = new Intl.DateTimeFormat('en-GB', { ...opt, timeZone: 'Asia/Seoul' }).format(now);
         }
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Copy Function
+        // Copy Feature
         function copyText(id) {
-            const copyText = document.getElementById(id);
-            if(copyText.value === "") {
-                alert("ကျေးဇူးပြု၍ စာသားအရင်ရိုက်ထည့်ပါ");
-                return;
-            }
-            copyText.select();
-            copyText.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(copyText.value);
+            const el = document.getElementById(id);
+            if(el.value === "") { alert("ကျေးဇူးပြု၍ အရင်စာရိုက်ထည့်ပါ"); return; }
+            el.select();
+            el.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(el.value);
             
-            // Alert simple feedback
             const btn = event.target;
             const originalText = btn.innerText;
             btn.innerText = "COPIED!";
             btn.style.background = "#22c55e";
             setTimeout(() => {
                 btn.innerText = originalText;
-                btn.style.background = "#eab308";
-            }, 1000);
+                btn.style.background = "#ca8a04";
+            }, 1200);
         }
     </script>
 </body>
