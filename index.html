@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEAL BOOKING PRO</title>
+    <title>SEAL BOOKING PRO | ADMIN</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -17,29 +17,34 @@
 </head>
 <body>
     <div class="max-w-xl mx-auto p-4 min-h-screen relative">
-        <header class="text-center py-8 border-b border-white/5 mb-6">
+        <header class="text-center py-6 border-b border-white/5 mb-6">
             <h1 class="text-3xl font-black gold-text italic">SEAL BOOKING PRO</h1>
-            <p id="user-status" class="text-[10px] text-gray-500 mt-2 uppercase tracking-widest">Premium Guide Service</p>
+            <p id="user-status" class="text-[10px] text-gray-500 mt-2 uppercase">Premium Guide Service</p>
+            <!-- Admin Dashboard Button (Only for Admin) -->
+            <button id="admin-toggle" onclick="toggleAdmin()" class="hidden mt-4 text-[10px] bg-red-600 px-3 py-1 rounded-full font-bold">OPEN ADMIN PANEL</button>
         </header>
 
-        <!-- Locked Screen -->
-        <div id="locked-screen" class="space-y-6">
-            <div class="premium-card p-8 text-center shadow-2xl">
-                <h2 class="text-xl font-bold mb-4">Seal Booking Helper မှ ကြိုဆိုပါတယ်</h2>
-                <div class="bg-yellow-500/10 p-5 rounded-2xl mb-6 border border-yellow-500/20">
-                    <p class="text-yellow-500 font-bold text-lg underline">Kpay: 09797430552</p>
-                    <p class="text-white text-sm mt-1">Mg Zaw Min Naing</p>
-                </div>
-                <p class="text-[11px] text-gray-400 mb-6 leading-relaxed">
-                    ၁။ Google ဖြင့် အရင် Login ဝင်ပါ။<br>
-                    ၂။ Kpay ဖြင့် ငွေလွှဲပြီး Screenshot ကို @krizz_ivan ဆီသို့ ပို့ပေးပါ။<br>
-                    ၃။ Admin မှ Approve လုပ်ပြီးလျှင် Guide အားလုံး ပွင့်သွားပါမည်။
-                </p>
-                <button id="login-btn" onclick="login()" class="w-full py-4 gold-btn rounded-2xl shadow-lg shadow-yellow-600/20">GOOGLE ဖြင့် LOGIN ဝင်မည်</button>
+        <!-- 1. Admin Dashboard (Hidden by default) -->
+        <div id="admin-panel" class="hidden space-y-4 mb-10">
+            <h2 class="text-xl font-bold text-red-500 border-b border-red-900 pb-2">Admin Dashboard</h2>
+            <div id="user-list" class="space-y-3">
+                <p class="text-xs text-gray-500 text-center py-4 italic">Loading user requests...</p>
             </div>
         </div>
 
-        <!-- Unlocked Screen -->
+        <!-- 2. Locked Screen -->
+        <div id="locked-screen" class="space-y-6">
+            <div class="premium-card p-8 text-center shadow-2xl">
+                <h2 class="text-xl font-bold mb-4">Seal Booking Helper မှ ကြိုဆိုပါတယ်</h2>
+                <div class="bg-yellow-500/10 p-5 rounded-2xl mb-6 border border-yellow-500/20 text-center">
+                    <p class="text-yellow-500 font-bold text-lg underline">Kpay: 09797430552</p>
+                    <p class="text-white text-sm mt-1">Mg Zaw Min Naing</p>
+                </div>
+                <button id="login-btn" onclick="login()" class="w-full py-4 gold-btn rounded-2xl">GOOGLE ဖြင့် LOGIN ဝင်မည်</button>
+            </div>
+        </div>
+
+        <!-- 3. Unlocked Master Guide -->
         <div id="unlocked-screen" class="hidden space-y-6 pb-20">
             <div class="grid grid-cols-2 gap-4">
                 <div class="premium-card p-5 text-center">
@@ -51,35 +56,18 @@
                     <p id="kr-time" class="text-xl font-black text-yellow-500">00:00:00</p>
                 </div>
             </div>
-
-            <div class="premium-card p-6 space-y-4">
-                <h3 class="text-emerald-400 font-bold border-b border-white/5 pb-2">⚡ QUICK COPY TOOLS</h3>
-                <div class="grid grid-cols-1 gap-4">
-                    <div>
-                        <span class="text-[10px] text-gray-500 uppercase font-bold">Passport / ID</span>
-                        <div class="flex gap-2 mt-1">
-                            <input id="id-field" type="text" value="ID Number ကို ဒီမှာ ရေးထားပါ" class="bg-black/50 border border-white/10 p-2 rounded-lg w-full text-sm outline-none">
-                            <button onclick="copy('id-field')" class="gold-btn px-4 rounded-lg text-[10px]">COPY</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 pt-2">
-                    <a href="https://www.g4k.go.kr" target="_blank" class="text-center py-3 bg-white/5 rounded-xl text-xs hover:bg-white/10 border border-white/5">G4K Website သို့ တိုက်ရိုက်သွားရန်</a>
-                    <a href="https://overseas.mofa.go.kr/mm-my/index.do" target="_blank" class="text-center py-3 bg-white/5 rounded-xl text-xs hover:bg-white/10 border border-white/5">Myanmar Embassy (Korea) Link</a>
-                </div>
-            </div>
-
-            <div class="premium-card p-6 border-l-4 border-l-yellow-500">
-                <h3 class="text-yellow-500 font-bold mb-4 uppercase text-sm italic underline">Seal Booking Master Guide</h3>
+            <!-- Master Guide & Tools (Content from previous step) -->
+            <div class="premium-card p-6 border-l-4 border-l-yellow-500 shadow-xl">
+                <h3 class="text-yellow-500 font-bold mb-4 uppercase text-sm italic underline">Master Guide Unlocked</h3>
                 <div class="text-[13px] text-gray-300 space-y-4 leading-relaxed">
-                    <p><b class="text-white">🇲🇲 မြန်မာနိုင်ငံမှ ယူမည့်သူများ:</b><br>၁:၃၀ တွင် Login ဝင်ထားပါ။ Paid VPN သုံးပါ။ ၁:၃၀ မှ ၁:၅၉ ထိ ၅ မိနစ်တစ်ခါ 'Make Reservation' ကိုနှိပ်ပြီး စစ်ပါ။ Bot ဟု အထင်မခံရအောင် ၅ မိနစ်တစ်ခါသာ လုပ်ပါ။ ၁:၅၉:၅၉ အတိတွင် နှိပ်ပါ။ နိုင်ငံမပေါ်လျှင် ၃ စက္ကန့်ခြား တစ်ခါ Refresh (Ctrl+R) လုပ်ပါ။</p>
-                    <p><b class="text-white">🇰🇷 ကိုရီးယားမှ ယူမည့်သူများ:</b><br>၄:၁၅ တွင် PC Bang မှ Login ဝင်ပါ။ Ping 2ms/3ms ရှိပါစေ။ ၄:၁၅ မှ ၄:၂၉ ထိ ၅ မိနစ်တစ်ခါ Refresh လုပ်ပါ။ ၄:၃၀ အတိတွင် နိုင်ငံရွေးပါ။ အဝိုင်းလည်နေလျှင် စိတ်မလောဘဲ စောင့်ပေးပါ။ ၂ စက္ကန့်လောက် နားပြီးမှ Refresh အလှည့်စီ လုပ်ပါ။</p>
+                    <p><b class="text-white">🇲🇲 မြန်မာ:</b> ၁:၃၀ ဝင်၊ ၁:၅၉:၅၉ မှာ နှိပ်။</p>
+                    <p><b class="text-white">🇰🇷 ကိုရီးယား:</b> ၄:၁၅ ဝင်၊ ၄:၃၀:၀၀ မှာ နှိပ်။</p>
                 </div>
             </div>
         </div>
 
         <!-- Floating Telegram -->
-        <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-transform">
+        <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 rounded-2xl shadow-2xl flex items-center justify-center">
             <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.467 8.246l-1.98 9.33c-.145.641-.52.796-1.058.495l-3.02-2.222-1.457 1.402c-.161.161-.297.297-.61.297l.217-3.076 5.6-5.059c.243-.217-.053-.338-.376-.122l-6.92 4.356-2.982-.932c-.648-.202-.66-.648.135-.958l11.644-4.486c.539-.196 1.012.128.852.896z"/></svg>
         </a>
     </div>
@@ -95,46 +83,69 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        const auth = firebase.auth();
+        const adminEmail = "kieronray348@gmail.com";
 
         async function login() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            try {
-                await firebase.auth().signInWithPopup(provider);
-            } catch (err) {
-                alert("Login Error: Authorized Domains ထဲမှာ github.io ကို ထည့်ဖို့ လိုအပ်နေပါသေးတယ်။");
-            }
+            await auth.signInWithPopup(provider);
         }
 
-        firebase.auth().onAuthStateChanged(async (user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
                 document.getElementById('user-status').innerText = "Logged in: " + user.email;
-                document.getElementById('login-btn').innerText = "Verifying Approval...";
                 
-                // ၁။ User ကို Database ထဲ အလိုအလျောက် အရင်ထည့်မယ်
+                // ၁။ Admin Check
+                if (user.email === adminEmail) {
+                    document.getElementById('admin-toggle').classList.remove('hidden');
+                    loadUsers();
+                }
+
+                // ၂။ User Data Handle
                 const userRef = db.collection('users').doc(user.uid);
                 const doc = await userRef.get();
-                
                 if (!doc.exists) {
-                    await userRef.set({
-                        email: user.email,
-                        isApproved: false,
-                        joinedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                    await userRef.set({ email: user.email, isApproved: false });
                 }
-                
-                // ၂။ အတည်ပြုချက် ရှိမရှိ စစ်မယ်
-                if (doc.exists && doc.data().isApproved === true) {
+
+                // ၃။ ပွင့်/မပွင့် စစ် (Admin ဆိုရင် တန်းပွင့်မယ်)
+                if ((doc.exists && doc.data().isApproved) || user.email === adminEmail) {
                     document.getElementById('locked-screen').classList.add('hidden');
                     document.getElementById('unlocked-screen').classList.remove('hidden');
                 }
             }
         });
 
-        function copy(id) {
-            const el = document.getElementById(id);
-            el.select();
-            document.execCommand('copy');
-            alert('Copied to Clipboard!');
+        // Admin Function: Load all users
+        function loadUsers() {
+            db.collection('users').onSnapshot(snapshot => {
+                const list = document.getElementById('user-list');
+                list.innerHTML = "";
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const div = document.createElement('div');
+                    div.className = "premium-card p-4 flex justify-between items-center bg-gray-900";
+                    div.innerHTML = `
+                        <div class="text-[10px]">
+                            <p class="font-bold">${data.email}</p>
+                            <p class="${data.isApproved ? 'text-green-500' : 'text-red-500'}">${data.isApproved ? 'Approved' : 'Pending'}</p>
+                        </div>
+                        <button onclick="approveUser('${doc.id}', ${!data.isApproved})" class="text-[10px] px-3 py-1 bg-white text-black rounded font-bold uppercase">
+                            ${data.isApproved ? 'Unapprove' : 'Approve'}
+                        </button>
+                    `;
+                    list.appendChild(div);
+                });
+            });
+        }
+
+        async function approveUser(uid, status) {
+            await db.collection('users').doc(uid).update({ isApproved: status });
+        }
+
+        function toggleAdmin() {
+            const panel = document.getElementById('admin-panel');
+            panel.classList.toggle('hidden');
         }
 
         setInterval(() => {
