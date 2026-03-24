@@ -3,112 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEAL BOOKING PRO | Premium Guide</title>
+    <title>SEAL BOOKING PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0a0f18; color: #e5e7eb; }
-        .premium-card { background: rgba(18, 26, 41, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(234, 179, 8, 0.1); border-radius: 24px; }
+        body { background-color: #0a0f18; color: #e5e7eb; font-family: sans-serif; }
+        .premium-card { background: rgba(18, 26, 41, 0.9); border: 1px solid rgba(234, 179, 8, 0.2); border-radius: 20px; }
+        .gold-btn { background: linear-gradient(to right, #ca8a04, #eab308); color: black; font-weight: bold; transition: 0.3s; }
         .gold-text { background: linear-gradient(to right, #eab308, #fef08a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn-gold { background: linear-gradient(to r, #ca8a04, #eab308); color: black; font-weight: 800; transition: 0.3s; }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(234, 179, 8, 0.2); }
     </style>
 </head>
 <body>
+    <div class="max-w-xl mx-auto p-4 min-h-screen relative">
+        <header class="text-center py-8 border-b border-white/5 mb-6">
+            <h1 class="text-3xl font-black gold-text">SEAL BOOKING PRO</h1>
+            <p id="user-status" class="text-[10px] text-gray-500 mt-2 uppercase tracking-widest">Premium Guide Service</p>
+        </header>
 
-    <!-- Loading Screen -->
-    <div id="loader" class="fixed inset-0 z-[100] bg-[#0a0f18] flex items-center justify-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-yellow-500"></div>
-    </div>
-
-    <!-- Main App Container -->
-    <div id="app" class="hidden">
-        <!-- Navigation -->
-        <nav class="p-6 flex justify-between items-center border-b border-white/5 sticky top-0 bg-[#0a0f18]/80 backdrop-blur-md z-40">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 btn-gold rounded-full flex items-center justify-center text-xl">S</div>
-                <span class="text-xl font-extrabold tracking-tighter gold-text">SEAL BOOKING PRO</span>
+        <!-- Welcome & Payment Screen (Default) -->
+        <div id="locked-screen" class="space-y-6">
+            <div class="premium-card p-8 text-center shadow-2xl">
+                <h2 class="text-xl font-bold mb-4">Seal Booking Helper မှ ကြိုဆိုပါတယ်</h2>
+                <p class="text-sm text-gray-400 mb-6 leading-relaxed">ဤ Guide နှင့် Tool များကို အသုံးပြုရန် အောက်ပါ Kpay သို့ ငွေပေးချေမှု အရင်ပြုလုပ်ပေးပါခင်ဗျာ။</p>
+                <div class="bg-yellow-500/10 p-5 rounded-2xl mb-6 border border-yellow-500/20">
+                    <p class="text-yellow-500 font-bold text-lg underline">Kpay: 09797430552</p>
+                    <p class="text-white text-sm mt-1">Mg Zaw Min Naing</p>
+                </div>
+                <p class="text-[10px] text-gray-500 mb-6">ငွေလွှဲပြီးလျှင် Screenshot ကို @krizz_ivan ဆီသို့ ပို့ပေးပါ။ Admin မှ Approve လုပ်ပြီးလျှင် Guide အားလုံး ပွင့်သွားပါမည်။</p>
+                <button onclick="login()" class="w-full py-4 gold-btn rounded-2xl shadow-lg shadow-yellow-600/20">GOOGLE ဖြင့် LOGIN ဝင်မည်</button>
             </div>
-            <div id="user-info" class="text-xs text-gray-400"></div>
-        </nav>
-
-        <!-- Landing Page / Payment (Locked) -->
-        <div id="locked-screen" class="max-w-md mx-auto mt-20 p-8 premium-card text-center hidden">
-            <h2 class="text-2xl font-bold mb-4">Seal Booking Helper Page မှ ကြိုဆိုပါတယ်</h2>
-            <p class="text-gray-400 text-sm mb-6">ဤ Guide ကို ဖတ်ရှုရန်နှင့် Tool များကို သုံးရန် အောက်ပါ Kpay သို့ ငွေပေးချေမှု အရင်ပြုလုပ်ပေးပါခင်ဗျာ။</p>
-            <div class="bg-yellow-500/10 p-4 rounded-xl mb-6 border border-yellow-500/20">
-                <p class="text-yellow-500 font-bold">Kpay: 09797430552</p>
-                <p class="text-white text-sm">Mg Zaw Min Naing</p>
-            </div>
-            <button onclick="uploadScreenshot()" class="w-full py-4 btn-gold rounded-xl mb-4 text-sm uppercase">Kpay ငွေပေးချေမည် (Screenshot ပို့ရန်)</button>
-            <p class="text-[10px] text-gray-500">Admin မှ Approve လုပ်ပြီးပါက Noti ဝင်လာပါမည်။</p>
         </div>
 
-        <!-- Premium Content (Unlocked) -->
-        <div id="unlocked-screen" class="max-w-6xl mx-auto p-6 hidden">
-            <!-- Clock Grid -->
-            <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="premium-card p-6 text-center">
-                    <p class="text-[10px] uppercase text-gray-500 tracking-widest mb-1">Myanmar Time</p>
-                    <h3 id="mm-clock" class="text-3xl font-black text-white">00:00:00</h3>
+        <!-- Unlocked Master Guide (Hidden initially) -->
+        <div id="unlocked-screen" class="hidden space-y-6 pb-20">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="premium-card p-5 text-center">
+                    <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Myanmar Time</p>
+                    <p id="mm-time" class="text-xl font-black">00:00:00</p>
                 </div>
-                <div class="premium-card p-6 text-center">
-                    <p class="text-[10px] uppercase text-gray-500 tracking-widest mb-1">Korea Time</p>
-                    <h3 id="kr-clock" class="text-3xl font-black text-yellow-500">00:00:00</h3>
+                <div class="premium-card p-5 text-center border-yellow-500/50">
+                    <p class="text-[10px] text-yellow-500 uppercase font-bold mb-1">Korea Time</p>
+                    <p id="kr-time" class="text-xl font-black text-yellow-500">00:00:00</p>
                 </div>
             </div>
 
-            <!-- Copy Tools & Links -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <div class="lg:col-span-2 premium-card p-8">
-                    <h4 class="font-bold text-emerald-400 mb-6 flex items-center gap-2">⚡ QUICK COPY TOOLS</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-4">
-                            <label class="block">
-                                <span class="text-[10px] text-gray-500 uppercase font-bold">Full Name</span>
-                                <div class="flex gap-2 mt-1">
-                                    <input id="name-field" type="text" value="Mg Zaw Min Naing" class="bg-black/40 border border-white/5 p-2 rounded-lg w-full text-sm outline-none">
-                                    <button onclick="copy('name-field')" class="btn-gold px-4 rounded-lg text-xs">COPY</button>
-                                </div>
-                            </label>
-                            <!-- အခြား Field များလည်း ဤနည်းအတိုင်း ထည့်ပါ -->
+            <div class="premium-card p-6 space-y-4">
+                <h3 class="text-emerald-400 font-bold border-b border-white/5 pb-2">⚡ QUICK COPY TOOLS</h3>
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-[10px] text-gray-500 uppercase">Passport / ID</span>
+                        <div class="flex gap-2 mt-1">
+                            <input id="id-field" type="text" value="N1234567" class="bg-black/50 border border-white/10 p-2 rounded-lg w-full text-sm outline-none focus:border-yellow-500" readonly>
+                            <button onclick="copy('id-field')" class="gold-btn px-4 rounded-lg text-[10px]">COPY</button>
                         </div>
                     </div>
                 </div>
-                
-                <div class="premium-card p-8">
-                    <h4 class="font-bold text-blue-400 mb-6">🔗 IMPORTANT LINKS</h4>
-                    <div class="space-y-3">
-                        <a href="https://www.g4k.go.kr" target="_blank" class="block p-3 bg-white/5 rounded-xl text-xs hover:bg-white/10 transition">G4K Official Site</a>
-                        <a href="#" class="block p-3 bg-white/5 rounded-xl text-xs hover:bg-white/10 transition">Korea Standard Time</a>
-                    </div>
-                </div>
             </div>
 
-            <!-- The Guide Content -->
-            <div class="premium-card p-10 leading-relaxed text-gray-300">
-                <h2 class="text-2xl font-bold text-yellow-500 mb-6 uppercase tracking-widest">Seal Booking Master Guide</h2>
-                <div class="space-y-8">
-                    <div>
-                        <h4 class="text-white font-bold mb-2">၁။ ကြိုတင်ပြင်ဆင်မှု (Preparation)</h4>
-                        <p class="text-sm">မြန်မာမှဆိုလျှင် ၁:၃၀ တွင် Login ဝင်ထားပါ။ VPN ကောင်းကောင်းသုံးပါ။ ကိုရီးယားမှဆိုလျှင် PC Bang တွင် ၄:၁၅ တွင် Login ဝင်ပါ။ Internet Ping 2ms/3ms ရှိပါစေ။</p>
-                    </div>
-                    <!-- ခင်ဗျားပေးထားတဲ့ အချက်အလက်တွေ အကုန်လုံးကို ဒီမှာ စနစ်တကျ ပြန်ဖြည့်ပေးပါမယ် -->
+            <div class="premium-card p-6">
+                <h3 class="text-yellow-500 font-bold mb-4 uppercase text-sm">Seal Booking Master Guide</h3>
+                <div class="text-xs text-gray-300 space-y-4 leading-relaxed">
+                    <p><b class="text-white">မြန်မာနိုင်ငံမှ ယူမည့်သူများ:</b> ၁:၃၀ တွင် Login ဝင်ထားပါ။ Paid VPN သုံးပါ။ ၁:၅၉:၅၅ တွင် Make Reservation ကို အသင့်ပြင်ထားပြီး ၂:၀၀ အတိတွင် နှိပ်ပါ။</p>
+                    <p><b class="text-white">ကိုရီးယားမှ ယူမည့်သူများ:</b> ၄:၁၅ တွင် PC Bang မှ Login ဝင်ပါ။ Ping 2ms/3ms ရှိပါစေ။ ၄:၃၀ အတိတွင် စတင်လုပါ။</p>
+                    <p class="text-yellow-600 italic">* Error (404/500) တက်ပါက Ctrl+R နှိပ်ပြီး ၃ စက္ကန့်ခြား တစ်ခါစီသာ Refresh လုပ်ပါ။</p>
                 </div>
             </div>
         </div>
+
+        <!-- Floating Telegram Icon -->
+        <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.467 8.246l-1.98 9.33c-.145.641-.52.796-1.058.495l-3.02-2.222-1.457 1.402c-.161.161-.297.297-.61.297l.217-3.076 5.6-5.059c.243-.217-.053-.338-.376-.122l-6.92 4.356-2.982-.932c-.648-.202-.66-.648.135-.958l11.644-4.486c.539-.196 1.012.128.852.896z"/></svg>
+        </a>
     </div>
 
-    <!-- Floating Telegram Icon -->
-    <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-8 right-8 w-14 h-14 bg-blue-500 rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50">
-        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.467 8.246l-1.98 9.33c-.145.641-.52.796-1.058.495l-3.02-2.222-1.457 1.402c-.161.161-.297.297-.61.297l.217-3.076 5.6-5.059c.243-.217-.053-.338-.376-.122l-6.92 4.356-2.982-.932c-.648-.202-.66-.648.135-.958l11.644-4.486c.539-.196 1.012.128.852.896z"/></svg>
-    </a>
-
     <script>
-        // FIREBASE CONFIGURATION (ခင်ဗျားပေးထားတာ)
         const firebaseConfig = {
             apiKey: "AIzaSyBfJtRAS9uV1Wlpld1ZIFpmxzZuRPFRNkE",
             authDomain: "seal-booking-pro.firebaseapp.com",
@@ -118,51 +88,40 @@
             appId: "1:840975178550:web:f66104070ba7cae9c4b197"
         };
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
 
-        // Check Auth & Approval Status
-        auth.onAuthStateChanged(user => {
-            document.getElementById('loader').classList.add('hidden');
-            document.getElementById('app').classList.remove('hidden');
+        function login() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider).catch(err => alert("Error: Firebase Domain ကို Authorized လုပ်ရန် လိုအပ်နေပါသေးသည်။"));
+        }
+
+        firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                document.getElementById('user-info').innerText = user.email;
-                checkUserStatus(user);
-            } else {
-                // Login လုပ်ခိုင်းမယ့် logic ထည့်ရန်
-                loginUser();
+                document.getElementById('user-status').innerText = "Member: " + user.email;
+                checkApproval(user.uid);
             }
         });
 
-        async function checkUserStatus(user) {
-            const doc = await db.collection('users').doc(user.uid).get();
+        async function checkApproval(uid) {
+            const doc = await firebase.firestore().collection('users').doc(uid).get();
             if (doc.exists && doc.data().isApproved) {
+                document.getElementById('locked-screen').classList.add('hidden');
                 document.getElementById('unlocked-screen').classList.remove('hidden');
-            } else {
-                document.getElementById('locked-screen').classList.remove('hidden');
             }
         }
 
-        // Real-time Clock
-        function updateClocks() {
-            const now = new Date();
-            const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-            document.getElementById('mm-clock').innerText = new Intl.DateTimeFormat('en-GB', { ...options, timeZone: 'Asia/Yangon' }).format(now);
-            document.getElementById('kr-clock').innerText = new Intl.DateTimeFormat('en-GB', { ...options, timeZone: 'Asia/Seoul' }).format(now);
-        }
-        setInterval(updateClocks, 1000);
-
         function copy(id) {
-            const copyText = document.getElementById(id);
-            copyText.select();
-            document.execCommand("copy");
-            alert("Copied: " + copyText.value);
+            const el = document.getElementById(id);
+            el.select();
+            document.execCommand('copy');
+            alert('Copied to Clipboard!');
         }
 
-        function loginUser() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider);
-        }
+        setInterval(() => {
+            const now = new Date();
+            const opt = { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false };
+            document.getElementById('mm-time').innerText = new Intl.DateTimeFormat('en-GB', {...opt, timeZone:'Asia/Yangon'}).format(now);
+            document.getElementById('kr-time').innerText = new Intl.DateTimeFormat('en-GB', {...opt, timeZone:'Asia/Seoul'}).format(now);
+        }, 1000);
     </script>
 </body>
 </html>
