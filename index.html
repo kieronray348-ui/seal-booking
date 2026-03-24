@@ -3,123 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEAL BOOKING PRO | OFFICIAL MASTER GUIDE</title>
+    <title>SEAL BOOKING PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #0a0f18; color: #e5e7eb; font-family: 'Inter', sans-serif; }
-        .premium-card { background: #111827; border: 1px solid #1f2937; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .premium-card { background: #111827; border: 1px solid #1f2937; border-radius: 20px; }
         .gold-btn { background: #eab308; color: #000; font-weight: 800; transition: 0.3s; }
-        .gold-btn:active { transform: scale(0.95); }
         .gold-text { color: #eab308; font-weight: 900; }
-        .copy-input { background: #000; border: 1px solid #374151; color: #fff; border-radius: 12px; font-size: 14px; }
-        .instruction-note { border-left: 5px solid #eab308; background: rgba(234, 179, 8, 0.05); }
+        .copy-input { background: #000; border: 1px solid #374151; color: #fff; border-radius: 12px; }
         .highlight { color: #eab308; font-weight: bold; }
     </style>
 </head>
 <body class="pb-20">
 
     <div class="max-w-xl mx-auto p-4">
-        <!-- Logo Header -->
         <header class="text-center py-8">
-            <h1 class="text-3xl gold-text italic tracking-tighter uppercase mb-2">SEAL BOOKING PRO</h1>
-            <p id="user-display" class="text-[9px] text-gray-500 uppercase tracking-[0.3em]">Checking Access...</p>
-            <button id="admin-btn" onclick="toggleAdmin()" class="hidden mt-4 bg-red-600 text-white px-4 py-1 rounded text-[10px] font-bold uppercase tracking-widest animate-pulse">Open Admin Dashboard</button>
+            <h1 class="text-3xl gold-text italic uppercase mb-2">SEAL BOOKING PRO</h1>
+            <p id="user-display" class="text-[9px] text-gray-500 uppercase tracking-widest font-bold">Premium Guide Service</p>
+            <button id="admin-btn" onclick="toggleAdmin()" class="hidden mt-4 bg-red-600 text-white px-4 py-1 rounded text-[10px] font-bold uppercase tracking-widest">Admin Dashboard</button>
         </header>
 
-        <!-- ADMIN DASHBOARD (Only visible to kieronray@gmail.com) -->
+        <!-- Admin Panel -->
         <div id="admin-panel" class="hidden premium-card p-6 mb-8 border-red-900/40 bg-red-950/5">
-            <h2 class="text-red-500 font-black text-xs uppercase mb-4 tracking-widest">Admin Control Panel</h2>
-            <div id="user-list" class="space-y-3">
-                <p class="text-[10px] text-gray-500 italic text-center py-4">Loading members...</p>
-            </div>
+            <h2 class="text-red-500 font-bold text-xs uppercase mb-4 tracking-widest italic">Member Management</h2>
+            <div id="user-list" class="space-y-2"></div>
         </div>
 
-        <!-- PAYMENT GATEWAY (For Unapproved Users) -->
-        <div id="locked-screen" class="hidden space-y-6">
-            <div class="premium-card p-10 text-center border-yellow-500/20 shadow-2xl">
-                <h2 class="text-xl font-bold mb-6">Seal Booking Helper Page မှ ကြိုဆိုပါတယ်</h2>
+        <!-- Locked / Payment Screen (Visible by Default) -->
+        <div id="locked-screen" class="space-y-6">
+            <div class="premium-card p-8 text-center border-yellow-500/20 shadow-2xl">
+                <h2 class="text-xl font-bold mb-6 italic underline">Payment & Access</h2>
                 <div class="bg-yellow-500/10 p-6 rounded-3xl mb-8 border border-yellow-500/20">
                     <p class="text-yellow-500 font-black text-2xl underline">09797430552</p>
-                    <p class="text-white text-xs mt-2 uppercase font-bold">Mg Zaw Min Naing</p>
+                    <p class="text-white text-xs mt-1 uppercase font-bold">Mg Zaw Min Naing</p>
                 </div>
                 <p class="text-[12px] text-gray-400 mb-8 leading-relaxed italic">
-                    ငွေလွှဲပြီးလျှင် <span class="text-white font-bold">Kpay Screenshot</span> ကို အောက်ပါ Telegram Icon လေးကိုနှိပ်ပြီး ပို့ပေးပါခင်ဗျာ။
+                    ငွေလွှဲပြီးလျှင် Screenshot ကို အောက်ပါ Telegram လေးနှိပ်ပြီး ပို့ပေးပါ။ Admin မှ Approve ပေးပြီးမှ Features များ အကုန် မြင်နိုင်မည် ဖြစ်ပါသည်။
                 </p>
-                <button onclick="login()" id="login-trigger" class="w-full py-4 gold-btn rounded-2xl uppercase tracking-widest text-sm shadow-xl shadow-yellow-600/10">Google ဖြင့် Login ဝင်မည်</button>
+                <button onclick="login()" id="login-trigger" class="w-full py-4 gold-btn rounded-2xl uppercase tracking-widest text-sm">Google ဖြင့် Login ဝင်မည်</button>
             </div>
         </div>
 
-        <!-- MASTER FEATURES (Only for Approved Users) -->
+        <!-- Unlocked Screen (Guides & Clocks) -->
         <div id="unlocked-screen" class="hidden space-y-8">
-            
-            <!-- 1. Clocks Section -->
             <div class="grid grid-cols-2 gap-4">
-                <div class="premium-card p-6 text-center border-white/5">
+                <div class="premium-card p-6 text-center">
                     <p class="text-[9px] text-gray-500 uppercase font-black mb-1">Myanmar Time</p>
                     <p id="mm-time" class="text-2xl font-black">00:00:00</p>
                 </div>
                 <div class="premium-card p-6 text-center border-yellow-500/30">
-                    <p class="text-[9px] text-yellow-500 uppercase font-black mb-1">Korea Time</p>
-                    <p id="kr-time" class="text-2xl font-black text-yellow-500 tracking-tighter">00:00:00</p>
+                    <p class="text-[9px] text-yellow-500 uppercase font-black mb-1 tracking-widest">Korea Time</p>
+                    <p id="kr-time" class="text-2xl font-black text-yellow-500">00:00:00</p>
                 </div>
             </div>
 
-            <!-- 2. Copy Tools Section -->
-            <div class="premium-card p-6 space-y-6 shadow-xl">
-                <h3 class="text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em] border-b border-white/5 pb-2">⚡ Quick Copy Tools</h3>
-                <div class="space-y-4">
-                    <div>
-                        <span class="text-[9px] text-gray-500 uppercase font-bold ml-1 italic tracking-widest">Full Name</span>
-                        <div class="flex gap-2 mt-1">
-                            <input id="name-field" type="text" placeholder="အမည်..." class="copy-input p-3 w-full outline-none focus:border-yellow-500 transition">
-                            <button onclick="copy('name-field')" class="gold-btn px-4 rounded-xl text-[9px] uppercase">Copy</button>
-                        </div>
+            <!-- Copy Fields -->
+            <div class="premium-card p-6 space-y-4">
+                <h3 class="text-emerald-400 font-bold text-[10px] uppercase tracking-widest border-b border-white/5 pb-2">⚡ Quick Copy Tools</h3>
+                <div>
+                    <span class="text-[9px] text-gray-500 font-bold ml-1">Name</span>
+                    <div class="flex gap-2 mt-1">
+                        <input id="name-field" type="text" placeholder="အမည်..." class="copy-input p-3 w-full outline-none">
+                        <button onclick="copy('name-field')" class="gold-btn px-4 rounded-xl text-[9px]">COPY</button>
                     </div>
-                    <div>
-                        <span class="text-[9px] text-gray-500 uppercase font-bold ml-1 italic tracking-widest">Phone Number</span>
-                        <div class="flex gap-2 mt-1">
-                            <input id="ph-field" type="text" placeholder="ဖုန်းနံပါတ်..." class="copy-input p-3 w-full outline-none focus:border-yellow-500 transition">
-                            <button onclick="copy('ph-field')" class="gold-btn px-4 rounded-xl text-[9px] uppercase">Copy</button>
-                        </div>
+                </div>
+                <div>
+                    <span class="text-[9px] text-gray-500 font-bold ml-1">Phone Number</span>
+                    <div class="flex gap-2 mt-1">
+                        <input id="ph-field" type="text" placeholder="ဖုန်းနံပါတ်..." class="copy-input p-3 w-full outline-none">
+                        <button onclick="copy('ph-field')" class="gold-btn px-4 rounded-xl text-[9px]">COPY</button>
                     </div>
-                    <div>
-                        <span class="text-[9px] text-gray-500 uppercase font-bold ml-1 italic tracking-widest">Passport / ID</span>
-                        <div class="flex gap-2 mt-1">
-                            <input id="id-field" type="text" placeholder="ID Number..." class="copy-input p-3 w-full outline-none focus:border-yellow-500 transition font-mono">
-                            <button onclick="copy('id-field')" class="gold-btn px-4 rounded-xl text-[9px] uppercase">Copy</button>
-                        </div>
+                </div>
+                <div>
+                    <span class="text-[9px] text-gray-500 font-bold ml-1">Passport / ID</span>
+                    <div class="flex gap-2 mt-1">
+                        <input id="id-field" type="text" placeholder="ID Number..." class="copy-input p-3 w-full outline-none font-mono">
+                        <button onclick="copy('id-field')" class="gold-btn px-4 rounded-xl text-[9px]">COPY</button>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. Expert Guides -->
-            <div class="premium-card p-8 border-l-[5px] border-l-yellow-500 shadow-2xl">
-                <h3 class="text-yellow-500 font-black mb-6 uppercase text-sm tracking-widest italic underline">Expert Booking Guide</h3>
-                <div class="text-[13px] text-gray-300 space-y-6 leading-relaxed font-medium">
-                    <p><b class="text-white underline">🇲🇲 မြန်မာနိုင်ငံ:</b> ၁:၃၀ တွင် Login ဝင်ထားပါ။ Paid VPN သုံးပါ။ ၁:၅၉:၅၉ အတိတွင် Reservation နှိပ်ပါ။ နိုင်ငံမပေါ်လျှင် ၃ စက္ကန့်ခြား တစ်ခါစီသာ Refresh (Ctrl+R) လုပ်ပါ။</p>
-                    <p><b class="text-white underline">🇰🇷 ကိုရီးယား:</b> ၄:၁၅ တွင် PC Bang မှ Login ဝင်ပါ။ Ping 2ms/3ms ရှိပါစေ။ ၄:၃၀:၀၀ အတိတွင် နိုင်ငံရွေးပါ။ အဝိုင်းလည်နေလျှင် စိတ်မလောဘဲ စောင့်ပေးပါ။</p>
+            <!-- Guides -->
+            <div class="premium-card p-8 border-l-[5px] border-l-yellow-500">
+                <h3 class="text-yellow-500 font-bold mb-4 uppercase text-sm tracking-widest underline italic">Expert Guide</h3>
+                <div class="text-[13px] text-gray-300 space-y-4 leading-relaxed">
+                    <p><b class="text-white">🇲🇲 မြန်မာ:</b> ၁:၃၀ ဝင်ထားပါ။ Paid VPN သုံးပါ။ ၁:၅၉:၅၉ အတိတွင် Reservation နှိပ်ပါ။ နိုင်ငံမပေါ်လျှင် ၃ စက္ကန့်ခြား တစ်ခါစီ Refresh လုပ်ပါ။</p>
+                    <p><b class="text-white">🇰🇷 ကိုရီးယား:</b> ၄:၁၅ ဝင်ပါ။ Ping 2ms/3ms ရှိပါစေ။ ၄:၃၀:၀၀ အတိတွင် နိုင်ငံရွေးပါ။ အဝိုင်းလည်နေလျှင် စောင့်ပေးပါ။</p>
                 </div>
             </div>
 
-            <!-- 4. Master Instruction Note (Long Text) -->
-            <div class="premium-card p-8 instruction-note border-white/5">
-                <h3 class="text-white font-black mb-6 uppercase text-xs tracking-[0.2em] opacity-60 italic border-b border-white/5 pb-3">Special Note</h3>
-                <div class="text-[13px] text-gray-300 leading-[1.8] space-y-4 font-medium italic">
-                    <p>Korea pc방 မှာ ယူတဲ့အခါ ပုံမှန်တွေထက်လိုင်းကောင်းတာဖြစ်လို့ <span class="highlight">4:15</span> မှ ဝင်ရင် အဆင်ပြေပါပြီ။ (စောဝင်တဲ့အခါ refresh လုပ်ရာကနေ server က WiFi ကို bot အမှတ်နဲ့ ban သွားတာမျိုးတွေ ခဏခဏ ကြုံတွေ့ရတတ်ပါတယ်)</p>
-                    <p>မြန်မာမှာ သို့မဟုတ် ကိုယ့်အိမ် WiFi နဲ့ ဖုန်း/ pc စတာတွေနဲ့ ယူမယ်ဆိုရင်တော့ အနည်းဆုံး <span class="highlight">နာရီဝက် ကြိုဝင်ထားတာ</span> အကောင်းဆုံးပါ။ code မကျတဲ့ပြသနာကို မပူရတော့ပါဘူး။</p>
-                    <p>အရေးကြီးဆုံးက သံရုံးဖွင့်ပေးတဲ့အချိန်မှာ <span class="highlight">မြန်မာသံရုံးချက်ချင်းပေါ်ဖို့နဲ့ 404 error မတက်ဖို့က နံပါတ် ၁ ပါ။</span> အဲ့တာကြောင့် ကြိုပြီး log in ဝင်ထားပြီးရင် ခဏခဏ refresh လုပ်ခြင်းကို ရှောင်ရပါမယ်။ မလုပ်ဘဲ ပစ်ထားတာမျိုးလည်းမဟုတ်ပါဘူး။ <span class="highlight">1:50 or 4:20</span> မတိုင်ခင်ထိ ၅ မိနစ်တစ်ခါ ၇ မိနစ်တစ်ခါမှ လုပ်ပေးပြီး screen မပိတ်အောင် page မကျသွားအောင် တော်ရုံလောက် လုံပေးရင် ရပါတယ်။</p>
-                    <p><span class="highlight">1:50 or 4:20</span> ပြီးရင်တော့ လိုင်းက ပိုကြပ်လာပြီမလို့ ၂ မိနစ်ခြား သို့ ၃ မိနစ်ခြား လုပ်ပေးပြီး <span class="highlight">1:59/4:29</span> မှာ Make a reservation page မှာစောင့်ပြီး အချိန်စေ့တာနဲ့ ဝင်ကြည့်လိုက်ပါ။ အဲ့မှာ အကုန်ပြုံဝင်ကြတာဖြစ်လို့ လိုင်းကြပ်ပြီး အဝိုင်းလည်နေနိုင်ပါတယ်။</p>
-                    <p>စိတ်လောပြီး လိုက်နှိပ်တာထက် <span class="highlight">အဝိုင်းလည်နေတာကို စောင့်ပေးပါ။</span> log in နေရာ embassy ရွေးတဲ့နေရာ ရောက်ပြီဆိုရင် ချက်ချင်း နိုင်ငံရွေးလိုက်ပါ။ အကယ်၍ သံရုံးက ကွက်တိမပေါ်ခဲ့ရင် <span class="highlight">ctr R</span> နှင့် Make a reservation page နေရာကို refresh လုပ်တာကို အလှည့်စီလုပ်ပြီး နိုင်ငံရွေးကြည့်ပါ။ အဓိကအချက်က ဆက်တိုက်နှိပ်တာမဟုတ်ဘဲ အဝိုင်းလည်တာပြီးတဲ့ထိစောင့်ပြီး <span class="highlight">2 seconds လောက်နားလုပ်တာ</span> ကောင်းပါတယ်။</p>
-                </div>
+            <!-- Master Note -->
+            <div class="premium-card p-8 bg-yellow-500/5 italic text-[13px] leading-relaxed text-gray-300">
+                <h3 class="text-white font-black mb-4 uppercase text-xs opacity-60">Master Instruction Note</h3>
+                <p>Korea pc방 မှာ ယူတဲ့အခါ 4:15 မှ ဝင်ရင် အဆင်ပြေပါပြီ။ စောဝင်ရင် IP ban တတ်ပါတယ်။ မြန်မာမှာဆိုရင် နာရီဝက် ကြိုဝင်ထားတာ အကောင်းဆုံးပါ။ 1:50 or 4:20 မတိုင်ခင်ထိ ၅ မိနစ်တစ်ခါလောက်ပဲ refresh လုပ်ပါ။ လိုင်းကြပ်ချိန်မှာ အဝိုင်းလည်နေရင် စိတ်မလောဘဲ စောင့်ပေးပါ။ ၂ စက္ကန့်လောက်နားပြီးမှ Refresh အလှည့်စီလုပ်တာ ပိုကောင်းပါတယ်။</p>
             </div>
         </div>
 
-        <!-- Floating Telegram Button -->
-        <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 w-16 h-16 bg-[#0088cc] rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-all active:scale-95 z-50">
+        <!-- Telegram -->
+        <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 w-16 h-16 bg-[#0088cc] rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-all z-50">
             <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.467 8.246l-1.98 9.33c-.145.641-.52.796-1.058.495l-3.02-2.222-1.457 1.402c-.161.161-.297.297-.61.297l.217-3.076 5.6-5.059c.243-.217-.053-.338-.376-.122l-6.92 4.356-2.982-.932c-.648-.202-.66-.648.135-.958l11.644-4.486c.539-.196 1.012.128.852.896z"/></svg>
         </a>
     </div>
@@ -140,52 +125,57 @@
 
         async function login() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            await auth.signInWithPopup(provider);
+            await auth.signInWithPopup(provider).catch(e => console.log(e));
         }
 
         auth.onAuthStateChanged(async (user) => {
             if (user) {
                 const email = user.email.toLowerCase();
-                document.getElementById('user-display').innerText = "Logged in: " + email;
+                document.getElementById('user-display').innerText = "Member: " + email;
                 
-                // Admin Toggle Show
-                if (email === OWNER) document.getElementById('admin-btn').classList.remove('hidden');
-
-                // Check/Create User Record
-                const userRef = db.collection('users').doc(user.uid);
-                let doc = await userRef.get();
-                if (!doc.exists) {
-                    await userRef.set({ email: email, isApproved: (email === OWNER) });
-                    doc = await userRef.get();
-                }
-
-                // Show Content Logic
-                if (doc.data().isApproved === true || email === OWNER) {
+                // Show Admin Panel
+                if (email === OWNER.toLowerCase()) {
+                    document.getElementById('admin-btn').classList.remove('hidden');
                     document.getElementById('locked-screen').classList.add('hidden');
                     document.getElementById('unlocked-screen').classList.remove('hidden');
-                    if (email === OWNER) loadAllUsers();
-                } else {
-                    document.getElementById('locked-screen').classList.remove('hidden');
-                    document.getElementById('login-trigger').innerText = "Account Pending Approval...";
-                    document.getElementById('login-trigger').disabled = true;
+                    loadUsers();
+                    return;
+                }
+
+                // Check Approval
+                try {
+                    const userRef = db.collection('users').doc(user.uid);
+                    let doc = await userRef.get();
+                    if (!doc.exists) {
+                        await userRef.set({ email: email, isApproved: false });
+                        doc = await userRef.get();
+                    }
+
+                    if (doc.data().isApproved) {
+                        document.getElementById('locked-screen').classList.add('hidden');
+                        document.getElementById('unlocked-screen').classList.remove('hidden');
+                    } else {
+                        document.getElementById('login-trigger').innerText = "Access Pending Approval...";
+                        document.getElementById('login-trigger').disabled = true;
+                    }
+                } catch (err) {
+                    console.log("Database Error", err);
+                    document.getElementById('login-trigger').innerText = "Database Error: Please wait...";
                 }
             } else {
                 document.getElementById('locked-screen').classList.remove('hidden');
             }
         });
 
-        function loadAllUsers() {
-            db.collection('users').orderBy('email').onSnapshot(snap => {
+        function loadUsers() {
+            db.collection('users').onSnapshot(snap => {
                 const list = document.getElementById('user-list');
                 list.innerHTML = "";
                 snap.forEach(d => {
-                    if(d.data().email === OWNER) return;
-                    list.innerHTML += `<div class="premium-card p-4 flex justify-between items-center bg-black/40 mb-2 border-white/5">
-                        <div class="text-[10px]">
-                            <p class="font-bold text-white tracking-tighter">${d.data().email}</p>
-                            <p class="${d.data().isApproved ? 'text-green-500' : 'text-red-500'} font-black uppercase tracking-widest">${d.data().isApproved ? 'Approved' : 'Pending'}</p>
-                        </div>
-                        <button onclick="approve('${d.id}', ${!d.data().isApproved})" class="bg-white text-black px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest">
+                    if(d.data().email === OWNER.toLowerCase()) return;
+                    list.innerHTML += `<div class="premium-card p-3 flex justify-between items-center mb-2 bg-black/40">
+                        <span class="text-[9px]">${d.data().email} (${d.data().isApproved ? 'Approved' : 'Pending'})</span>
+                        <button onclick="approve('${d.id}', ${!d.data().isApproved})" class="bg-white text-black px-2 py-1 rounded text-[9px] font-bold">
                             ${d.data().isApproved ? 'Revoke' : 'Approve'}
                         </button>
                     </div>`;
@@ -195,20 +185,17 @@
 
         async function approve(id, status) { await db.collection('users').doc(id).update({ isApproved: status }); }
         function toggleAdmin() { document.getElementById('admin-panel').classList.toggle('hidden'); }
-        
         function copy(id) {
             const el = document.getElementById(id);
-            if(el.value === "") { alert("စာသား အရင်ဖြည့်ပါ"); return; }
-            el.select();
-            document.execCommand('copy');
-            alert('Copied to Clipboard!');
+            if(!el.value) return alert("စာအရင်ဖြည့်ပါ");
+            el.select(); document.execCommand('copy'); alert('Copied!');
         }
 
         setInterval(() => {
             const now = new Date();
             const opt = { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false };
-            document.getElementById('mm-time').innerText = new Intl.DateTimeFormat('en-GB', { ...opt, timeZone:'Asia/Yangon' }).format(now);
-            document.getElementById('kr-time').innerText = new Intl.DateTimeFormat('en-GB', { ...opt, timeZone:'Asia/Seoul' }).format(now);
+            document.getElementById('mm-time').innerText = new Intl.DateTimeFormat('en-GB', { ...opt, timeZone: 'Asia/Yangon' }).format(now);
+            document.getElementById('kr-time').innerText = new Intl.DateTimeFormat('en-GB', { ...opt, timeZone: 'Asia/Seoul' }).format(now);
         }, 1000);
     </script>
 </body>
