@@ -3,92 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEAL BOOKING PRO</title>
+    <title>Seal Booking Helper | Premium Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #0a0f18; color: #e5e7eb; font-family: sans-serif; }
-        .premium-card { background: #111827; border: 1px solid #1f2937; border-radius: 20px; }
-        .gold-btn { background: #eab308; color: #000; font-weight: 800; }
-        .gold-text { color: #eab308; font-weight: 900; }
-        .copy-input { background: #000; border: 1px solid #374151; color: #fff; border-radius: 12px; font-size: 14px; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        body { background-color: #0d0f14; color: #ffffff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .glass-card { background: #161a23; border: 1px solid #2d333f; border-radius: 24px; }
+        .premium-gradient { background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%); }
+        .gold-text { color: #f59e0b; }
+        .emerald-text { color: #10b981; }
+        .btn-hover { transition: all 0.3s ease; }
+        .btn-hover:active { transform: scale(0.96); }
+        .status-badge { padding: 4px 12px; border-radius: 100px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .copy-input { background: #1f2532; border: 1px solid #374151; color: #9ca3af; border-radius: 12px; width: 100%; padding: 12px; font-size: 14px; outline: none; }
+        .copy-input:focus { border-color: #7c3aed; color: white; }
     </style>
 </head>
-<body class="pb-20">
-    <div class="max-w-xl mx-auto p-4">
-        <header class="text-center py-8">
-            <h1 class="text-3xl gold-text italic uppercase mb-2 leading-tight">SEAL BOOKING PRO</h1>
-            <p id="user-display" class="text-[9px] text-gray-500 mt-2 font-bold uppercase tracking-widest italic">Checking Access...</p>
-            <button id="admin-btn" onclick="toggleAdmin()" class="hidden mt-4 bg-red-600 text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest">Admin Dashboard</button>
-        </header>
+<body>
 
-        <!-- Admin Panel -->
-        <div id="admin-panel" class="hidden premium-card p-6 mb-8 border-red-900/40 bg-red-950/5">
-            <h2 class="text-red-500 font-bold text-xs uppercase mb-4 tracking-widest text-center underline italic">User Requests (Admin)</h2>
-            <div id="user-list" class="space-y-2"></div>
-        </div>
-
-        <!-- Locked Screen -->
-        <div id="locked-screen" class="space-y-6">
-            <div class="premium-card p-10 text-center border-yellow-500/20 shadow-2xl">
-                <h2 class="text-xl font-bold mb-6 italic underline">Access & Payment</h2>
-                <div class="bg-yellow-500/10 p-6 rounded-3xl mb-8 border border-yellow-500/20">
-                    <p class="text-yellow-500 font-black text-2xl underline leading-relaxed">09797430552</p>
-                    <p class="text-white text-xs mt-1 uppercase font-bold tracking-widest font-bold">Mg Zaw Min Naing</p>
+    <div class="max-w-xl mx-auto px-4 pb-20">
+        <!-- TOP MENU BAR -->
+        <nav class="flex justify-between items-center py-6 mb-4">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 rounded-xl premium-gradient flex items-center justify-center shadow-lg shadow-purple-500/20">
+                    <i class="fa-solid fa-seal text-white"></i>
                 </div>
-                <p class="text-[12px] text-gray-300 mb-8 leading-relaxed italic">
-                    ငွေလွှဲပြီးလျှင် Screenshot ကို အောက်ပါ Telegram လေးနှိပ်ပြီး ပို့ပေးပါ။ Admin မှ Approve ပေးပြီးမှ Master Guide ပွင့်ပါမည်။
-                </p>
-                <button onclick="login()" id="login-trigger" class="w-full py-4 gold-btn rounded-2xl uppercase tracking-widest text-sm shadow-xl">Google ဖြင့် Login ဝင်မည်</button>
-            </div>
-        </div>
-
-        <!-- Unlocked Screen -->
-        <div id="unlocked-screen" class="hidden space-y-8">
-            <!-- Clocks -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="premium-card p-6 text-center border-white/5">
-                    <p class="text-[9px] text-gray-500 uppercase font-black mb-1">Myanmar Time</p>
-                    <p id="mm-time" class="text-2xl font-black italic">00:00:00</p>
-                </div>
-                <div class="premium-card p-6 text-center border-yellow-500/30">
-                    <p class="text-[9px] text-yellow-500 uppercase font-black mb-1 tracking-widest">Korea Time</p>
-                    <p id="kr-time" class="text-2xl font-black text-yellow-500 italic">00:00:00</p>
+                <div>
+                    <h1 class="text-sm font-black tracking-tight leading-none uppercase">Seal Booking</h1>
+                    <p class="text-[10px] text-gray-500 font-bold">Helper</p>
                 </div>
             </div>
-
-            <!-- Copy Tools (3 Fields) -->
-            <div class="premium-card p-6 space-y-4">
-                <h3 class="text-emerald-400 font-bold text-[10px] uppercase tracking-widest border-b border-white/5 pb-2">⚡ Quick Copy Tools</h3>
-                <div><span class="text-[9px] text-gray-500 font-bold ml-1 uppercase">Name</span><div class="flex gap-2 mt-1"><input id="f1" type="text" placeholder="..." class="copy-input p-3 w-full outline-none"><button onclick="copy('f1')" class="gold-btn px-4 rounded-xl text-[9px]">COPY</button></div></div>
-                <div><span class="text-[9px] text-gray-500 font-bold ml-1 uppercase">Phone Number</span><div class="flex gap-2 mt-1"><input id="f2" type="text" placeholder="..." class="copy-input p-3 w-full outline-none"><button onclick="copy('f2')" class="gold-btn px-4 rounded-xl text-[9px]">COPY</button></div></div>
-                <div><span class="text-[9px] text-gray-500 font-bold ml-1 uppercase">Passport / ID</span><div class="flex gap-2 mt-1"><input id="f3" type="text" placeholder="..." class="copy-input p-3 w-full outline-none font-mono"><button onclick="copy('f3')" class="gold-btn px-4 rounded-xl text-[9px]">COPY</button></div></div>
+            <div class="flex items-center gap-3">
+                <div id="verified-tag" class="hidden flex items-center gap-1 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-3 py-1 rounded-full text-[10px] font-bold">
+                    <i class="fa-solid fa-check-double text-[8px]"></i> Verified
+                </div>
+                <div class="relative group">
+                    <button id="user-menu-btn" class="w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center overflow-hidden">
+                        <i class="fa-solid fa-user text-gray-400"></i>
+                    </button>
+                    <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-[#1c222d] border border-gray-700 rounded-2xl shadow-2xl z-50 overflow-hidden">
+                        <div class="p-4 border-b border-gray-800">
+                            <p id="dropdown-email" class="text-[10px] text-gray-400 truncate">Not Logged In</p>
+                        </div>
+                        <button onclick="logout()" class="w-full text-left p-4 text-xs font-bold text-red-500 hover:bg-red-500/5">
+                            <i class="fa-solid fa-right-from-bracket mr-2"></i> Log Out
+                        </button>
+                    </div>
+                </div>
             </div>
+        </nav>
 
-            <!-- Guide Text -->
-            <div class="premium-card p-8 border-l-[5px] border-l-yellow-500">
-                <h3 class="text-yellow-500 font-bold mb-4 uppercase text-sm tracking-widest italic underline">Expert Booking Guide</h3>
-                <div class="text-[13px] text-gray-300 space-y-4 leading-relaxed font-medium">
-                    <p>🇲🇲 <b>မြန်မာနိုင်ငံ:</b> ၁:၃၀ တွင် Login ဝင်ထားပါ။ Paid VPN သုံးပါ။ ၁:၅၉:၅၉ အတိတွင် Reservation နှိပ်ပါ။ နိုင်ငံမပေါ်လျှင် ၃ စက္ကန့်ခြား တစ်ခါစီ Refresh လုပ်ပါ။</p>
-                    <p>🇰🇷 <b>ကိုရီးယား:</b> ၄:၁၅ ဝင်ပါ။ Ping 2ms/3ms ရှိပါစေ။ ၄:၃၀:၀၀ အတိတွင် နိုင်ငံရွေးပါ။ အဝိုင်းလည်နေလျှင် စောင့်ပေးပါ။</p>
+        <!-- ADMIN DASHBOARD (Pictured Version) -->
+        <div id="admin-dashboard" class="hidden space-y-6 mb-10">
+            <div class="flex justify-between items-center">
+                <h2 class="text-sm font-black uppercase tracking-widest text-purple-400 italic">Admin Dashboard</h2>
+                <span class="bg-purple-500/20 text-purple-400 text-[10px] px-2 py-1 rounded">Admin Access</span>
+            </div>
+            
+            <!-- Statistic Cards -->
+            <div class="grid grid-cols-3 gap-3">
+                <div class="glass-card p-4 text-center border-orange-500/20">
+                    <p id="count-pending" class="text-xl font-black text-orange-500">0</p>
+                    <p class="text-[9px] text-gray-500 font-bold uppercase mt-1">စောင့်ဆိုင်းနေ</p>
+                </div>
+                <div class="glass-card p-4 text-center border-emerald-500/20">
+                    <p id="count-approved" class="text-xl font-black text-emerald-500">0</p>
+                    <p class="text-[9px] text-gray-500 font-bold uppercase mt-1">အတည်ပြုပြီး</p>
+                </div>
+                <div class="glass-card p-4 text-center border-red-500/20">
+                    <p id="count-rejected" class="text-xl font-black text-red-500">0</p>
+                    <p class="text-[9px] text-gray-500 font-bold uppercase mt-1">ငြင်းပယ်ခဲ့</p>
                 </div>
             </div>
 
-            <!-- Note Text -->
-            <div class="premium-card p-8 bg-yellow-500/5 italic text-[12.5px] leading-relaxed text-gray-300">
-                <h3 class="text-white font-black mb-4 uppercase text-xs opacity-60">Master Instruction Note</h3>
-                <p>Korea pc방 မှာ ယူတဲ့အခါ 4:15 မှ ဝင်ရင် အဆင်ပြေပါပြီ။ စောဝင်ရင် IP ban တတ်ပါတယ်။ မြန်မာမှာဆိုရင် နာရီဝက် ကြိုဝင်ထားတာ အကောင်းဆုံးပါ။ 1:50 or 4:20 မတိုင်ခင်ထိ ၅ မိနစ်တစ်ခါလောက်ပဲ refresh လုပ်ပါ။ လိုင်းကြပ်ချိန်မှာ အဝိုင်းလည်နေရင် စိတ်မလောဘဲ စောင့်ပေးပါ။ ၂ စက္ကန့်လောက်နားပြီးမှ Refresh အလှည့်စီလုပ်တာ ပိုကောင်းပါတယ်။</p>
+            <!-- User Requests List -->
+            <div class="space-y-3">
+                <h3 class="text-[10px] font-bold text-gray-400 uppercase">စစ်ဆေးရန်များ (Requests)</h3>
+                <div id="admin-user-list" class="space-y-3"></div>
             </div>
         </div>
 
-        <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 w-16 h-16 bg-[#0088cc] rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-all z-50 shadow-blue-600/20">
-            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.467 8.246l-1.98 9.33c-.145.641-.52.796-1.058.495l-3.02-2.222-1.457 1.402c-.161.161-.297.297-.61.297l.217-3.076 5.6-5.059c.243-.217-.053-.338-.376-.122l-6.92 4.356-2.982-.932c-.648-.202-.66-.648.135-.958l11.644-4.486c.539-.196 1.012.128.852.896z"/></svg>
+        <!-- LOCKED VIEW (Payment Page) -->
+        <div id="locked-view" class="hidden py-4 text-center space-y-8">
+            <div class="py-10">
+                <div class="w-32 h-32 mx-auto rounded-[2.5rem] premium-gradient flex items-center justify-center shadow-2xl shadow-purple-500/30 mb-8 overflow-hidden">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_H_X9G_66LqVvL5Z6t_qY9X_B6v2W_kS_lg&s" class="w-full h-full object-cover opacity-80" alt="Seal">
+                </div>
+                <h2 class="text-3xl font-black mb-2">Seal Booking Helper</h2>
+                <p class="text-sm text-gray-500 max-w-xs mx-auto">ကိုရီးယား Seal Booking ကို အောင်မြင်စွာ ရယူနိုင်ရန် ကျွမ်းကျင်သော guide နှင့် tools များ ပါဝင်သည်</p>
+            </div>
+
+            <div class="glass-card p-8 space-y-6">
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 bg-gray-900/50 rounded-2xl border border-gray-800">
+                        <div class="text-left">
+                            <p class="text-[10px] font-bold text-gray-500 uppercase">KPay နံပါတ်</p>
+                            <p class="text-lg font-black text-orange-500">09797430552</p>
+                        </div>
+                        <button onclick="copyToClipboard('09797430552')" class="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center"><i class="fa-solid fa-copy text-xs"></i></button>
+                    </div>
+                    <div class="flex justify-between items-center p-4 bg-gray-900/50 rounded-2xl border border-gray-800">
+                        <div class="text-left">
+                            <p class="text-[10px] font-bold text-gray-500 uppercase">အမည်</p>
+                            <p class="text-lg font-black">Mg Zaw Min Naing</p>
+                        </div>
+                        <button onclick="copyToClipboard('Mg Zaw Min Naing')" class="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center"><i class="fa-solid fa-copy text-xs"></i></button>
+                    </div>
+                </div>
+
+                <div class="bg-orange-500/10 border border-orange-500/20 p-4 rounded-2xl flex items-start gap-3">
+                    <i class="fa-solid fa-triangle-exclamation text-orange-500 mt-1"></i>
+                    <p class="text-xs text-orange-200 text-left leading-relaxed">KPay လွှဲပြီးနောက် Screenshot ကို အောက်ပါ Telegram သို့ ပေးပို့ပေးပါက Owner မှ စစ်ဆေးပြီး Access ပေးပါမည်။</p>
+                </div>
+
+                <button onclick="login()" id="main-action-btn" class="w-full py-5 premium-gradient rounded-3xl font-black text-sm uppercase tracking-widest shadow-xl shadow-purple-500/20 btn-hover">
+                    Google ဖြင့် Login ဝင်မည်
+                </button>
+            </div>
+        </div>
+
+        <!-- UNLOCKED VIEW (The Features) -->
+        <div id="unlocked-view" class="hidden space-y-6 pt-4">
+            <!-- Approved Banner -->
+            <div class="bg-emerald-500/10 border border-emerald-500/20 p-6 rounded-3xl flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-xl"></i>
+                </div>
+                <div>
+                    <h4 class="text-sm font-black text-emerald-400 uppercase">ငွေပေးချေမှု အတည်ပြုပြီး</h4>
+                    <p class="text-[11px] text-gray-400">Master features အားလုံးကို အသုံးပြုနိုင်ပါပြီ</p>
+                </div>
+            </div>
+
+            <!-- Server Time -->
+            <div class="glass-card p-6">
+                <div class="flex items-center gap-2 mb-6">
+                    <i class="fa-solid fa-clock text-purple-500"></i>
+                    <h3 class="text-xs font-black uppercase tracking-widest">Live Server Time</h3>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse ml-auto"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-900/50 p-4 rounded-2xl border border-gray-800 text-center">
+                        <p class="text-[9px] text-gray-500 uppercase mb-2">🇲🇲 မြန်မာ (MMT)</p>
+                        <p id="mm-time" class="text-2xl font-black">00:00:00</p>
+                    </div>
+                    <div class="bg-gray-900/50 p-4 rounded-2xl border border-gray-800 text-center">
+                        <p class="text-[9px] text-gray-500 uppercase mb-2">🇰🇷 ကိုရီးယား (KST)</p>
+                        <p id="kr-time" class="text-2xl font-black text-orange-500">00:00:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Manager (Name, Phone, Passport) -->
+            <div class="glass-card p-6">
+                <div class="flex items-center gap-2 mb-6">
+                    <i class="fa-solid fa-bolt text-orange-500"></i>
+                    <h3 class="text-xs font-black uppercase tracking-widest">Data Pre-fill Manager</h3>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-500 uppercase mb-2 ml-1">နာမည် (Name)</p>
+                        <div class="flex gap-2">
+                            <input id="f-name" type="text" placeholder="Passport ပေါ်ရှိ နာမည်" class="copy-input">
+                            <button onclick="copyField('f-name')" class="px-5 bg-gray-800 rounded-xl"><i class="fa-solid fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-500 uppercase mb-2 ml-1">ဖုန်းနံပါတ် (Phone)</p>
+                        <div class="flex gap-2">
+                            <input id="f-phone" type="text" placeholder="+82 10..." class="copy-input">
+                            <button onclick="copyField('f-phone')" class="px-5 bg-gray-800 rounded-xl"><i class="fa-solid fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-500 uppercase mb-2 ml-1">Passport / ID နံပါတ်</p>
+                        <div class="flex gap-2">
+                            <input id="f-id" type="text" placeholder="A1234567" class="copy-input font-mono">
+                            <button onclick="copyField('f-id')" class="px-5 bg-gray-800 rounded-xl"><i class="fa-solid fa-copy"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guides Section -->
+            <div class="glass-card p-6">
+                <div class="flex items-center gap-2 mb-6 border-b border-gray-800 pb-4">
+                    <i class="fa-solid fa-book-open text-purple-400"></i>
+                    <h3 class="text-xs font-black uppercase tracking-widest text-gray-300">Booking Strategy Guide</h3>
+                </div>
+                <div class="space-y-6 text-[13px] leading-relaxed text-gray-400">
+                    <p class="italic"><span class="text-orange-500 font-black">NOTE:</span> Korea pc방 မှာ ယူတဲ့အခါ ပုံမှန်တွေထက်လိုင်းကောင်းတာဖြစ်လို့ 4:15 မှ ဝင်ရင် အဆင်ပြေပါပြီ။ (စောဝင်တဲ့အခါ refresh လုပ်ရာကနေ server က WiFi ကို bot အမှတ်နဲ့ ban သွားတာမျိုးတွေ ခဏခဏ ကြုံတွေ့ရတတ်ပါတယ်)</p>
+                    <p>မြန်မာမှာ သို့မဟုတ် ကိုယ့်အိမ် WiFi နဲ့ ဖုန်း/ pc စတာတွေနဲ့ ယူမယ်ဆိုရင်တော့ အနည်းဆုံး <span class="text-white font-bold">နာရီဝက် ကြိုဝင်ထားတာ</span> အကောင်းဆုံးပါ။ code မကျတဲ့ပြသနာကို မပူရတော့ပါဘူး။</p>
+                    <p><span class="text-white font-bold underline italic">အရေးကြီးဆုံး</span> က သံရုံးဖွင့်ပေးတဲ့အချိန်မှာ <span class="text-orange-500 font-bold">မြန်မာသံရုံးချက်ချင်းပေါ်ဖို့နဲ့ 404 error မတက်ဖို့က နံပါတ် ၁ ပါ။</span> အဲ့တာကြောင့် ကြိုပြီး log in ဝင်ထားပြီးရင် ခဏခဏ refresh လုပ်ခြင်းကို ရှောင်ရပါမယ်။</p>
+                    <p>၁:၅၀ (သို့) ၄:၂၀ မတိုင်ခင်ထိ ၅ မိနစ်တစ်ခါသာ လုပ်ပေးပြီး screen မပိတ်အောင် တော်ရုံလောက် လုံပေးရင် ရပါတယ်။ ၁:၅၀ ကျော်ရင်တော့ ၂ မိနစ်ခြား လုပ်ပေးပြီး ၁:၅၉:၅၉ မှာ အသင့်စောင့်ပါ။</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FLOATING TELEGRAM -->
+        <a href="https://t.me/krizz_ivan" target="_blank" class="fixed bottom-6 right-6 flex items-center gap-3 bg-[#0088cc] px-5 py-4 rounded-3xl shadow-2xl shadow-blue-500/30 btn-hover z-[100]">
+            <i class="fa-brands fa-telegram text-2xl"></i>
+            <span class="text-xs font-black uppercase tracking-widest">Telegram</span>
         </a>
     </div>
 
     <script>
+        // CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyBfJtRAS9uV1Wlpld1ZIFpmxzZuRPFRNkE",
             authDomain: "seal-booking-pro.firebaseapp.com",
@@ -100,80 +224,114 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        const OWNER = "kieronray348@gmail.com";
+        const ADMIN_EMAIL = "kieronray348@gmail.com";
 
+        // UI HELPERS
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert("Copied: " + text);
+        }
+        function copyField(id) {
+            const val = document.getElementById(id).value;
+            if(!val) return alert("စာသားအရင်ဖြည့်ပါ");
+            copyToClipboard(val);
+        }
+        function toggleAdmin() {
+            const dash = document.getElementById('admin-dashboard');
+            dash.classList.toggle('hidden');
+        }
+
+        // AUTH LOGIC
         async function login() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            await auth.signInWithPopup(provider).catch(e => console.log(e));
+            await auth.signInWithPopup(provider);
+        }
+        function logout() {
+            auth.signOut().then(() => window.location.reload());
         }
 
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                const email = user.email.toLowerCase();
-                document.getElementById('user-display').innerText = "Logged In: " + email;
+        // MENU INTERACTION
+        document.getElementById('user-menu-btn').onclick = () => {
+            document.getElementById('user-dropdown').classList.toggle('hidden');
+        };
 
-                // Admin Bypass Logic (Rules ပြင်စရာမလိုဘဲ တန်းပွင့်မည်)
-                if (email === OWNER.toLowerCase()) {
-                    document.getElementById('admin-btn').classList.remove('hidden');
-                    document.getElementById('locked-screen').classList.add('hidden');
-                    document.getElementById('unlocked-screen').classList.remove('hidden');
-                    loadUsers();
-                } else {
-                    // Normal Users
-                    try {
-                        const userRef = db.collection('users').doc(user.uid);
-                        const doc = await userRef.get();
-                        if (!doc.exists) {
-                            await userRef.set({ email: email, isApproved: false }).catch(e => console.log("Database write failed. Need rules."));
-                        }
-                        if (doc.exists && doc.data().isApproved === true) {
-                            document.getElementById('locked-screen').classList.add('hidden');
-                            document.getElementById('unlocked-screen').classList.remove('hidden');
-                        } else {
-                            document.getElementById('login-trigger').innerText = "Access Pending Approval...";
-                            document.getElementById('login-trigger').disabled = true;
-                            document.getElementById('login-trigger').classList.replace('gold-btn', 'bg-gray-800');
-                        }
-                    } catch (err) {
-                        // Database error တက်ရင်တောင် အမည်းရောင်ကြီး ဖြစ်မနေစေရန်
-                        document.getElementById('locked-screen').classList.remove('hidden');
-                        document.getElementById('login-trigger').innerText = "Access Required (Approved Only)";
-                    }
-                }
-            } else {
-                document.getElementById('locked-screen').classList.remove('hidden');
-            }
-        });
-
-        function loadUsers() {
-            db.collection('users').onSnapshot(snap => {
-                const list = document.getElementById('user-list'); list.innerHTML = "";
-                snap.forEach(d => {
-                    if(d.data().email === OWNER.toLowerCase()) return;
-                    list.innerHTML += `<div class="premium-card p-3 flex justify-between items-center mb-2 bg-black/40 text-[9px]">
-                        <span>${d.data().email} (${d.data().isApproved ? 'Approved' : 'Pending'})</span>
-                        <button onclick="approve('${d.id}', ${!d.data().isApproved})" class="bg-white text-black px-2 py-1 rounded font-bold uppercase">
-                            ${d.data().isApproved ? 'Revoke' : 'Approve'}
-                        </button>
-                    </div>`;
-                });
-            }, err => console.log("Admin list load failed. Need rules."));
-        }
-
-        async function approve(id, status) { await db.collection('users').doc(id).update({ isApproved: status }); }
-        function toggleAdmin() { document.getElementById('admin-panel').classList.toggle('hidden'); }
-        function copy(id) {
-            const el = document.getElementById(id);
-            if(!el.value) return alert("စာအရင်ဖြည့်ပါ");
-            el.select(); document.execCommand('copy'); alert('Copied!');
-        }
-
+        // CLOCK LOGIC
         setInterval(() => {
             const now = new Date();
             const opt = { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false };
-            document.getElementById('mm-time').innerText = new Intl.DateTimeFormat('en-GB', { ...opt, timeZone: 'Asia/Yangon' }).format(now);
-            document.getElementById('kr-time').innerText = new Intl.DateTimeFormat('en-GB', { ...opt, timeZone: 'Asia/Seoul' }).format(now);
+            document.getElementById('mm-time').innerText = new Intl.DateTimeFormat('en-GB', {...opt, timeZone:'Asia/Yangon'}).format(now);
+            document.getElementById('kr-time').innerText = new Intl.DateTimeFormat('en-GB', {...opt, timeZone:'Asia/Seoul'}).format(now);
         }, 1000);
+
+        // DATA MONITORING
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const email = user.email.toLowerCase();
+                document.getElementById('dropdown-email').innerText = email;
+                
+                // Create or Check User in DB
+                const userRef = db.collection('users').doc(user.uid);
+                let doc = await userRef.get();
+                if (!doc.exists) {
+                    await userRef.set({ email: email, isApproved: (email === ADMIN_EMAIL.toLowerCase()), name: user.displayName });
+                    doc = await userRef.get();
+                }
+
+                // Show Views based on status
+                if (email === ADMIN_EMAIL.toLowerCase()) {
+                    document.getElementById('admin-dashboard').classList.remove('hidden');
+                    document.getElementById('unlocked-view').classList.remove('hidden');
+                    document.getElementById('verified-tag').classList.remove('hidden');
+                    loadAdminData();
+                } else if (doc.data().isApproved) {
+                    document.getElementById('unlocked-view').classList.remove('hidden');
+                    document.getElementById('verified-tag').classList.remove('hidden');
+                } else {
+                    document.getElementById('locked-view').classList.remove('hidden');
+                    document.getElementById('main-action-btn').innerText = "Approval စောင့်ဆိုင်းနေသည်...";
+                    document.getElementById('main-action-btn').disabled = true;
+                    document.getElementById('main-action-btn').classList.replace('premium-gradient', 'bg-gray-800');
+                }
+            } else {
+                document.getElementById('locked-view').classList.remove('hidden');
+            }
+        });
+
+        // ADMIN FUNCTIONALITY
+        function loadAdminData() {
+            db.collection('users').onSnapshot(snap => {
+                const list = document.getElementById('admin-user-list');
+                let pending = 0, approved = 0;
+                list.innerHTML = "";
+                
+                snap.forEach(d => {
+                    const data = d.data();
+                    if(data.email === ADMIN_EMAIL.toLowerCase()) return;
+                    if(data.isApproved) approved++; else pending++;
+                    
+                    list.innerHTML += `
+                        <div class="glass-card p-4 flex justify-between items-center bg-gray-900/30">
+                            <div>
+                                <p class="text-[11px] font-black tracking-tight">${data.email}</p>
+                                <p class="text-[9px] font-bold ${data.isApproved ? 'text-emerald-500' : 'text-orange-500'} uppercase mt-1">
+                                    ${data.isApproved ? 'အတည်ပြုပြီး ✓' : 'စောင့်ဆိုင်းဆဲ...'}
+                                </p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="updateUser('${d.id}', true)" class="bg-emerald-500/10 text-emerald-500 p-2 rounded-lg text-[10px] font-black border border-emerald-500/20">APPROVE</button>
+                                <button onclick="updateUser('${d.id}', false)" class="bg-red-500/10 text-red-500 p-2 rounded-lg text-[10px] font-black border border-red-500/20">REVOKE</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('count-pending').innerText = pending;
+                document.getElementById('count-approved').innerText = approved;
+            });
+        }
+
+        async function updateUser(uid, status) {
+            await db.collection('users').doc(uid).update({ isApproved: status });
+        }
     </script>
 </body>
 </html>
